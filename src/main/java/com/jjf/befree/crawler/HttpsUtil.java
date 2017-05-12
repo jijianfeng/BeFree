@@ -7,7 +7,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 /**
- * 无视Https证书是否正确的Java Http Client
+ * 无视Https证书是否正确的Java Http Client  
  * 
  * 
  * @author huangxuebin

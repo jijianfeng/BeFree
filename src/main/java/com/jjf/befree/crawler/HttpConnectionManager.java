@@ -1,11 +1,18 @@
 package com.jjf.befree.crawler;
 
+/**
+ * Created by jjf_lenovo on 2017/5/12.
+ */
+
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.cookie.*;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -14,91 +21,108 @@ import org.apache.http.impl.cookie.BestMatchSpecFactory;
 import org.apache.http.impl.cookie.BrowserCompatSpec;
 import org.apache.http.impl.cookie.BrowserCompatSpecFactory;
 import org.apache.http.protocol.HttpContext;
+import org.apache.log4j.Logger;
 
-public class HttpConnectionManager {  
- 
-      
-    //×î´óÁ¬½ÓÊı  
-//    public final static int MAX_TOTAL_CONNECTIONS = 800;  
-//      
-//    //»ñÈ¡Á¬½ÓµÄ×î´óµÈ´ıÊ±¼ä  
-//    public final static int WAIT_TIMEOUT = 60000;  
-//      
-//    //Ã¿¸öÂ·ÓÉ×î´óÁ¬½ÓÊı  
-//    public final static int MAX_ROUTE_CONNECTIONS = 400;  
-      
-    //Á¬½Ó³¬Ê±Ê±¼ä  
-    public final static int CONNECT_TIMEOUT = 20000;  
-      
-    //¶ÁÈ¡³¬Ê±Ê±¼ä  
-    public final static int SOCKET_TIMEOUT = 20000;  
-      
+import javax.net.ssl.SSLContext;
+
+public class HttpConnectionManager {
+
+    //TODO å¯ä»¥ç”¨SpringAOPæ¥å®Œæˆæ—¥å¿—
+    static Logger log = Logger.getRootLogger();
+    //æœ€å¤§è¿æ¥æ•°
+//    public final static int MAX_TOTAL_CONNECTIONS = 800;
+//
+//    //è·å–è¿æ¥çš„æœ€å¤§ç­‰å¾…æ—¶é—´
+//    public final static int WAIT_TIMEOUT = 60000;
+//
+//    //æ¯ä¸ªè·¯ç”±æœ€å¤§è¿æ¥æ•°
+//    public final static int MAX_ROUTE_CONNECTIONS = 400;
+
+    //è¿æ¥è¶…æ—¶æ—¶é—´
+    public final static int CONNECT_TIMEOUT = 20000;
+
+    //è¯»å–è¶…æ—¶æ—¶é—´
+    public final static int SOCKET_TIMEOUT = 20000;
+
     /**
-     * Ä¬ÈÏ¼òµ¥µÄ
+     * é»˜è®¤ç®€å•çš„
      * @return
      */
-    public static HttpClient getHttpClient(){  
-    	RequestConfig requestConfig = RequestConfig.custom()
-				.setSocketTimeout(SOCKET_TIMEOUT) //ÉèÖÃsocket³¬Ê±
-				.setConnectTimeout(CONNECT_TIMEOUT) //ÉèÖÃconnect³¬Ê±
-				.build();
-		CloseableHttpClient httpClient = HttpClients.custom()
-				.setDefaultRequestConfig(requestConfig)
-				.build();
-		return httpClient;
-    } 
-    
+    public static HttpClient getHttpClient(){
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setSocketTimeout(SOCKET_TIMEOUT) //è®¾ç½®socketè¶…æ—¶
+                .setConnectTimeout(CONNECT_TIMEOUT) //è®¾ç½®connectè¶…æ—¶
+                .build();
+        CloseableHttpClient httpClient = HttpClients.custom()
+                .setDefaultRequestConfig(requestConfig)
+                .build();
+        return httpClient;
+    }
+
     /**
-     * ´øcookieµÄ
+     * å¸¦cookieçš„
      * @return
      */
     public static HttpClient getHttpClientWithCookie(){
-    	CookieSpecProvider cookieSpecProvider = new CookieSpecProvider() {
-			public CookieSpec create(HttpContext context) {
-				return new BrowserCompatSpec() {
-					@Override
-					public void validate(Cookie cookie, CookieOrigin origin) throws MalformedCookieException {
-						//Oh, I am easy;
-					}
-				};
-			}
-		};
-		Registry<CookieSpecProvider> r = RegistryBuilder
-				.<CookieSpecProvider> create()
-				.register(CookieSpecs.BEST_MATCH, new BestMatchSpecFactory())
-				.register(CookieSpecs.BROWSER_COMPATIBILITY, new BrowserCompatSpecFactory())
-				.register("easy", cookieSpecProvider)
-				.build();
-    	RequestConfig requestConfig = RequestConfig.custom()
-    			.setCookieSpec("easy")
-				.setSocketTimeout(SOCKET_TIMEOUT) //ÉèÖÃsocket³¬Ê±
-				.setConnectTimeout(CONNECT_TIMEOUT) //ÉèÖÃconnect³¬Ê±
-				.build();
-		CloseableHttpClient httpClient = HttpClients.custom()
-				.setDefaultCookieSpecRegistry(r)
-				.setDefaultRequestConfig(requestConfig)
-				.build();
-		return httpClient;
-    } 
-    
+        CookieSpecProvider cookieSpecProvider = new CookieSpecProvider() {
+            public CookieSpec create(HttpContext context) {
+                return new BrowserCompatSpec() {
+                    @Override
+                    public void validate(Cookie cookie, CookieOrigin origin) throws MalformedCookieException {
+                        //Oh, I am easy;
+                    }
+                };
+            }
+        };
+        Registry<CookieSpecProvider> r = RegistryBuilder
+                .<CookieSpecProvider> create()
+                .register(CookieSpecs.BEST_MATCH, new BestMatchSpecFactory())
+                .register(CookieSpecs.BROWSER_COMPATIBILITY, new BrowserCompatSpecFactory())
+                .register("easy", cookieSpecProvider)
+                .build();
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setCookieSpec("easy")
+                .setSocketTimeout(SOCKET_TIMEOUT) //è®¾ç½®socketè¶…æ—¶
+                .setConnectTimeout(CONNECT_TIMEOUT) //è®¾ç½®connectè¶…æ—¶
+                .build();
+        CloseableHttpClient httpClient = HttpClients.custom()
+                .setDefaultCookieSpecRegistry(r)
+                .setDefaultRequestConfig(requestConfig)
+                .build();
+        return httpClient;
+    }
+
     /**
-     * ¿ÉÒÔÉèÖÃ´úÀíµÄ
+     * å¯ä»¥è®¾ç½®ä»£ç†çš„
      * @param proxyIp
      * @param proxyPort
      * @return
      */
-    public static HttpClient getHttpClientWithProxy(String proxyIp, Integer proxyPort){  
-    	HttpHost proxy = new HttpHost(proxyIp, proxyPort);
-		DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-		RequestConfig requestConfig = RequestConfig.custom()
-				.setSocketTimeout(2000) //ÉèÖÃsocket³¬Ê±
-				.setConnectTimeout(2000) //ÉèÖÃconnect³¬Ê±
-				.setProxy(proxy)
-				.build();
-		CloseableHttpClient httpClient = HttpClients.custom()
-				.setRoutePlanner(routePlanner)
-				.setDefaultRequestConfig(requestConfig)
-				.build();
-		return httpClient;
-    } 
-}  
+    public static HttpClient getHttpClientWithProxy(String proxyIp, Integer proxyPort ,Boolean isIgnoreCer){
+        HttpHost proxy = new HttpHost(proxyIp, proxyPort);
+        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setSocketTimeout(2000) //è®¾ç½®socketè¶…æ—¶
+                .setConnectTimeout(2000) //è®¾ç½®connectè¶…æ—¶
+                .setProxy(proxy)
+                .build();
+        if(!isIgnoreCer) { //ä¸éœ€è¦è·³è¿‡è¯ä¹¦éªŒè¯
+            return HttpClients.custom()
+                    .setRoutePlanner(routePlanner)
+                    .setDefaultRequestConfig(requestConfig)
+                    .build();
+        }
+        try {
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
+            SSLConnectionSocketFactory sslCSF = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            return HttpClients.custom()
+                    .setRoutePlanner(routePlanner)
+                    .setDefaultRequestConfig(requestConfig)
+                    .setSSLSocketFactory(sslCSF)
+                    .build();
+        } catch (Exception e) {
+            log.error("è‡ªå®šä¹‰SSLSocketFactoryå¤±è´¥ï¼Œå¯èƒ½å¯¼è‡´æ— æ³•ç»•è¿‡è¯ä¹¦éªŒè¯");
+        }
+        return null;
+    }
+}

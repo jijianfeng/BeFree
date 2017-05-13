@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 
 import javax.net.ssl.SSLContext;
 
-public class HttpConnectionManager {
+public class HttpClientManager {
 
     //TODO 可以用SpringAOP来完成日志
     static Logger log = Logger.getRootLogger();

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
-public class HttpClientRequestHandler {
+public class HttpClientRequest {
     private static final int ERROR_CODE = 1;
 
     public static void main(String args[]) throws Exception{
@@ -32,10 +32,9 @@ public class HttpClientRequestHandler {
         //这里设置普通的代理是不能访问youtube之类的网站https网站的，
         // 因为XX-NET时需要证书的，但是可以走百度的http
         //有两张解决办法，1.绕过证书2.选择证书  这里我选择第一种，第二种https://www.oschina.net/code/snippet_273576_18919
-        HttpClient client = HttpConnectionManager.getHttpClientWithProxy(proxyIp,proxyPort,true);//.getHttpClient();
+        HttpClient client = HttpClientManager.getHttpClientWithProxy(proxyIp,proxyPort,true);//.getHttpClient();
         String html =  doGet(client,"https://www.youtube.com/","UTF-8").html();
         System.out.println(html);
-//    	writeString(html,"C:/result.txt");
     }
 
 

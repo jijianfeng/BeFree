@@ -7,7 +7,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -63,10 +65,10 @@ public class HttpClientRequest {
                 return null;
 
             } else {
-                throw new Exception("请求URL【"+url+"】，"+statuCode+"错误");
+                throw new HttpResponseException(statuCode,"请求URL【"+url+"】，"+statuCode+"错误");
             }
-        } catch (Exception e){
-            throw new Exception(ERROR_CODE+e.getMessage());
+        } catch (ClientProtocolException e){
+            throw new ClientProtocolException("发起链接异常");
         } finally {
             if(httpGet != null){
                 httpGet.abort();
@@ -207,4 +209,30 @@ public class HttpClientRequest {
         return null;
     }
 
+
+    /**
+     * get方式提交数据
+     */
+    public static int doGetToGetResponseCode(HttpClient client,String url,String encoding) throws Exception{
+        //System.out.println("doGet中使用代理："+proxyIp+":"+proxyPort);
+//        HttpClient client = HttpConnectionManager.getHttpClient();//getHttpClientWithProxy(proxyIp,proxyPort);
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+        httpGet.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+        httpGet.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        httpGet.setHeader("Accept-Encoding", "gzip, deflate");
+//        httpGet.setHeader("User-Agent", HttpUserAgent.get());
+        try{
+            //执行
+            HttpResponse response = client.execute(httpGet);
+            int statuCode = response.getStatusLine().getStatusCode();
+            return statuCode;
+        } catch (ClientProtocolException e){
+            throw new ClientProtocolException("发起链接异常");
+        } finally {
+            if(httpGet != null){
+                httpGet.abort();
+            }
+        }
+    }
 }

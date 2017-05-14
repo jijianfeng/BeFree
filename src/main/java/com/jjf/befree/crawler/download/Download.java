@@ -5,5 +5,5 @@ package com.jjf.befree.crawler.download;
  */
 //下载视频
 public interface Download{
-    public void download(String url);
+    public void download(String url) throws InterruptedException;
 }

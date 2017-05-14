@@ -39,10 +39,10 @@ public class HttpClientManager {
 //    public final static int MAX_ROUTE_CONNECTIONS = 400;
 
     //连接超时时间
-    public final static int CONNECT_TIMEOUT = 20000;
+    public final static int CONNECT_TIMEOUT = 200000;
 
     //读取超时时间
-    public final static int SOCKET_TIMEOUT = 20000;
+    public final static int SOCKET_TIMEOUT = 200000;
 
     /**
      * 默认简单的
@@ -102,8 +102,9 @@ public class HttpClientManager {
         HttpHost proxy = new HttpHost(proxyIp, proxyPort);
         DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(2000) //设置socket超时
-                .setConnectTimeout(2000) //设置connect超时
+                .setSocketTimeout(SOCKET_TIMEOUT) //设置socket超时
+                .setConnectTimeout(CONNECT_TIMEOUT) //设置connect超时
+                .setConnectionRequestTimeout(200000)
                 .setProxy(proxy)
                 .build();
         if(!isIgnoreCer) { //不需要跳过证书验证

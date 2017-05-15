@@ -1,6 +1,6 @@
 package com.jjf.befree.crawler.download.test;
 
-import com.jjf.befree.crawler.download.DownloadFromYoutube;
+import com.jjf.befree.crawler.downloader.DownloadFromYoutube;
 
 /**
  * Created by jjf_lenovo on 2017/5/13.

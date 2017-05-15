@@ -1,4 +1,4 @@
-package com.jjf.befree.crawler.util;
+package com.jjf.befree.crawler.utils;
 
 /**
  * Created by jjf_lenovo on 2017/5/12.

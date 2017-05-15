@@ -1,4 +1,4 @@
-package com.jjf.befree.crawler;
+package com.jjf.befree.crawler.Client;
 
 /**
  * Created by jjf_lenovo on 2017/5/12.
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+
 public class HttpClientRequest {
     private static final int ERROR_CODE = 1;
 

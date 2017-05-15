@@ -1,8 +1,6 @@
-package com.jjf.befree.crawler.download;
+package com.jjf.befree.crawler.downloader;
 
-import com.jjf.befree.crawler.HttpClientManager;
-import com.jjf.befree.crawler.HttpClientRequest;
-import com.jjf.befree.crawler.util.URLEncodeDecode;
+import com.jjf.befree.crawler.utils.URLEncodeDecode;
 import org.apache.http.client.HttpClient;
 
 /**

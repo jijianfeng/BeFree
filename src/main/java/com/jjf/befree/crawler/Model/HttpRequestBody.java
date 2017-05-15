@@ -1,9 +1,8 @@
-package com.jjf.befree.crawler.model;
+package com.jjf.befree.crawler.Model;
 
 /**
  * Created by jjf_lenovo on 2017/5/15.
  */
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;

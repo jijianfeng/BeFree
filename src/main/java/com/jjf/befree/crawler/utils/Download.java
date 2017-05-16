@@ -1,47 +1,77 @@
 package com.jjf.befree.crawler.utils;
 
+import com.jjf.befree.crawler.Client.HttpClientManager;
+import com.jjf.befree.crawler.Site;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.URL;
+import java.io.*;
 
 /**
  * Created by jjf_lenovo on 2017/5/16.
  */
 public class Download {
     static Logger log = Logger.getLogger(Download.class);
-    public static boolean downloadFileFromUrl(String url,String pathName)  {
-        URL ul = null;
+    public static boolean downloadFileFromUrl(String url,String pathName,String proxyIp,int proxyPort)  {
+        InputStream in = null;
+        OutputStream out = null;
         try {
-            ul = new URL(url);
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8087));
-        HttpURLConnection conn = (HttpURLConnection) ul.openConnection(proxy);
-        BufferedInputStream bi = new BufferedInputStream(conn.getInputStream());
-        FileOutputStream bs = new FileOutputStream(pathName);
-        //System.out.println("文件大约："+(conn.getContentLength()/1024)+"K");
-        log.info("start download from "+url);
-        log.info("file size ablout:" +conn.getContentLength()/1024/1024+"Mb");
-        byte[] by = new byte[1024];
-        int len = 0;
-        while((len=bi.read(by))!=-1){
-            bs.write(by,0,len);
-        }
-        bs.close();
-        bi.close();
-        } catch (IOException e) {
+            Site site = new Site().setProxyIp(proxyIp).setProxyPort(proxyPort);
+            HttpClient client = HttpClientManager.getHttpClinet(site);
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = client.execute(httpGet);
+            HttpEntity entity = httpResponse.getEntity();
+            in = entity.getContent();
+            long length = entity.getContentLength();
+            if (length <= 0) {
+                log.error("file don't exit from "+url);
+                return false;
+             }
+            File file = new File(pathName);
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            out = new FileOutputStream(file);
+            byte[] buffer = new byte[4096];
+            int readLength = 0;
+            while ((readLength=in.read(buffer)) > 0) {
+                byte[] bytes = new byte[readLength];
+                System.arraycopy(buffer, 0, bytes, 0, readLength);
+                out.write(bytes);
+            }
+            out.flush();
+        } catch (Exception e) {
             log.error("fail download from "+url);
             log.error(e.getMessage());
             return false;
-        }
+        }finally{
+            try {
+                if(in != null){
+                    in.close();
+                }
+             } catch (IOException e) {
+                    //e.printStackTrace();
+                    log.error("in can't close");
+                    return false;
+             }
+
+             try {
+                if(out != null){
+                    out.close();
+                }
+             } catch (IOException e) {
+                 //e.printStackTrace();
+                 log.error("out can't close");
+                 return false;
+             }
+         }
         return true;
     }
 
     public static void main(String args[]){
-        downloadFileFromUrl("https://r5---sn-i3b7kn7r.googlevideo.com/videoplayback?dur=1802.100&id=o-ANMudGWpmGXTKNA3s-h92IyDJIH5idmAjs46K8kgbVW7&ei=P78aWe_JMIyuqAGZvarADQ&requiressl=yes&sparams=clen,dur,ei,gir,id,ip,ipbits,itag,keepalive,lmt,mime,mm,mn,ms,mv,pl,requiressl,source,upn,expire&expire=1494946719&itag=160&mime=video/mp4&source=youtube&clen=6517120&lmt=1489553943604300&upn=vVECko5F1KI&signature=2F86133EC9A808D4473C1D5D35CCA9FECD59F907.AA645FD9FD8A543919247BCEA649FA8E3BE3574F&mt=1494924919&mv=u&pl=17&ipbits=0&ms=au&mm=31&mn=sn-i3b7kn7r&ip=112.10.180.221&key=yt6&keepalive=yes&gir=yes","c:1.mp4");
+        downloadFileFromUrl("https://r5---sn-i3b7kn7r.googlevideo.com/videoplayback?sparams=dur,ei,id,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,pl,ratebypass,requiressl,source,upn,expire&signature=9E8003285F4062AFF33EFF26218C2457FB276C35.4D287CAC995F6278130095751AF160BBFCD62C69&ipbits=0&ip=112.10.180.221&lmt=1489558682126127&itag=22&ei=VwsbWYqzL8mZ_AO7r4fYBg&id=o-AATutRZP_68QDKKJSvc7FH3tTQcab7Av9eKV0tzxFGEc&upn=8OjCNgTQnZE&mm=31&mn=sn-i3b7kn7r&ratebypass=yes&mime=video/mp4&requiressl=yes&source=youtube&pl=19&dur=1802.147&expire=1494966199&mt=1494944391&mv=u&ms=au&key=yt6","D:\\1.mp4","127.0.0.1",8087);
     }
 }

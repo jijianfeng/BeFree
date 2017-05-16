@@ -18,15 +18,13 @@ public class Site {
 
     private String charset;
 
-    private int sleepTime = 5000;
+    private int sleepTime = 20000;
 
-    private int retryTimes = 0;
+    private int connectTimeout = 30000; // 链接建立的超时时间；
 
-    private int cycleRetryTimes = 0;  //循环重试总时间
+    private int socketTimeout = 30000;  //响应超时时间，超过此时间不再读取响应；
 
-    private int retrySleepTime = 5000; //重试休息时间
-
-    private int timeOut = 20000; //超时时间
+    private int connectionRequestTimeout = 30000;//http clilent中从connetcion pool中获得一个connection的超时时间
 
     private static final Set<Integer> DEFAULT_STATUS_CODE_SET = new HashSet<Integer>();
 
@@ -35,6 +33,12 @@ public class Site {
     private Map<String, String> headers = new HashMap<String, String>();
 
     private boolean useGzip = true;
+
+    private String proxyIp;
+
+    private int proxyPort=0;
+
+    boolean isIgnoreCer = true;
 
     static {
         DEFAULT_STATUS_CODE_SET.add(HttpConstant.StatusCode.CODE_200);
@@ -156,21 +160,6 @@ public class Site {
         return charset;
     }
 
-    public int getTimeOut() {
-        return timeOut;
-    }
-
-    /**
-     * set timeout for downloader in ms
-     *
-     * @param timeOut timeOut
-     * @return this
-     */
-    public Site setTimeOut(int timeOut) {
-        this.timeOut = timeOut;
-        return this;
-    }
-
     /**
      * Set acceptStatCode.<br>
      * When status code of http response is in acceptStatCodes, it will be processed.<br>
@@ -221,9 +210,6 @@ public class Site {
      *
      * @return retry times when download fail
      */
-    public int getRetryTimes() {
-        return retryTimes;
-    }
 
     public Map<String, String> getHeaders() {
         return headers;
@@ -242,54 +228,8 @@ public class Site {
         return this;
     }
 
-    /**
-     * Set retry times when download fail, 0 by default.<br>
-     *
-     * @param retryTimes retryTimes
-     * @return this
-     */
-    public Site setRetryTimes(int retryTimes) {
-        this.retryTimes = retryTimes;
-        return this;
-    }
-
-    /**
-     * When cycleRetryTimes is more than 0, it will add back to scheduler and try download again. <br>
-     *
-     * @return retry times when download fail
-     */
-    public int getCycleRetryTimes() {
-        return cycleRetryTimes;
-    }
-
-    /**
-     * Set cycleRetryTimes times when download fail, 0 by default. <br>
-     *
-     * @param cycleRetryTimes cycleRetryTimes
-     * @return this
-     */
-    public Site setCycleRetryTimes(int cycleRetryTimes) {
-        this.cycleRetryTimes = cycleRetryTimes;
-        return this;
-    }
-
     public boolean isUseGzip() {
         return useGzip;
-    }
-
-    public int getRetrySleepTime() {
-        return retrySleepTime;
-    }
-
-    /**
-     * Set retry sleep times when download fail, 1000 by default. <br>
-     *
-     * @param retrySleepTime retrySleepTime
-     * @return this
-     */
-    public Site setRetrySleepTime(int retrySleepTime) {
-        this.retrySleepTime = retrySleepTime;
-        return this;
     }
 
     /**
@@ -301,6 +241,60 @@ public class Site {
      */
     public Site setUseGzip(boolean useGzip) {
         this.useGzip = useGzip;
+        return this;
+    }
+
+    public String getProxyIp() {
+        return proxyIp;
+    }
+
+    public Site setProxyIp(String proxyIp) {
+        this.proxyIp = proxyIp;
+        return this;
+    }
+
+    public int getProxyPort() {
+        return proxyPort;
+    }
+
+    public Site setProxyPort(int proxyPort) {
+        this.proxyPort = proxyPort;
+        return this;
+    }
+
+    public boolean isIgnoreCer() {
+        return isIgnoreCer;
+    }
+
+    public Site setIgnoreCer(boolean ignoreCer) {
+        isIgnoreCer = ignoreCer;
+        return this;
+    }
+
+    public int getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public Site setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+        return this;
+    }
+
+    public int getSocketTimeout() {
+        return socketTimeout;
+    }
+
+    public Site setSocketTimeout(int socketTimeout) {
+        this.socketTimeout = socketTimeout;
+        return this;
+    }
+
+    public int getConnectionRequestTimeout() {
+        return connectionRequestTimeout;
+    }
+
+    public Site setConnectionRequestTimeout(int connectionRequestTimeout) {
+        this.connectionRequestTimeout = connectionRequestTimeout;
         return this;
     }
 
@@ -328,11 +322,14 @@ public class Site {
         if (o == null || getClass() != o.getClass()) return false;
 
         Site site = (Site) o;
-
-        if (cycleRetryTimes != site.cycleRetryTimes) return false;
-        if (retryTimes != site.retryTimes) return false;
         if (sleepTime != site.sleepTime) return false;
-        if (timeOut != site.timeOut) return false;
+        if (proxyIp != site.proxyIp) return false;
+        if (proxyPort != site.proxyPort) return false;
+        if (isIgnoreCer != site.isIgnoreCer) return false;
+        if (sleepTime != site.sleepTime) return false;
+        if (connectTimeout != site.connectTimeout) return false;
+        if (socketTimeout != site.socketTimeout) return false;
+        if (connectionRequestTimeout != site.connectionRequestTimeout) return false;
         if (acceptStatCode != null ? !acceptStatCode.equals(site.acceptStatCode) : site.acceptStatCode != null)
             return false;
         if (charset != null ? !charset.equals(site.charset) : site.charset != null) return false;
@@ -352,9 +349,8 @@ public class Site {
         result = 31 * result + (defaultCookies != null ? defaultCookies.hashCode() : 0);
         result = 31 * result + (charset != null ? charset.hashCode() : 0);
         result = 31 * result + sleepTime;
-        result = 31 * result + retryTimes;
-        result = 31 * result + cycleRetryTimes;
-        result = 31 * result + timeOut;
+        result = 31 * result + proxyIp !=null? proxyIp.hashCode():0;
+        result = 31 * result + proxyPort;
         result = 31 * result + (acceptStatCode != null ? acceptStatCode.hashCode() : 0);
         result = 31 * result + (headers != null ? headers.hashCode() : 0);
         return result;
@@ -368,11 +364,14 @@ public class Site {
                 ", cookies=" + defaultCookies +
                 ", charset='" + charset + '\'' +
                 ", sleepTime=" + sleepTime +
-                ", retryTimes=" + retryTimes +
-                ", cycleRetryTimes=" + cycleRetryTimes +
-                ", timeOut=" + timeOut +
+                ", connectTimeout=" + connectTimeout +
+                ", socketTimeout=" + socketTimeout +
+                ", connectionRequestTimeout=" + connectionRequestTimeout +
+                ", proxyIp=" + proxyIp +
+                ", proxyPort=" + proxyPort +
                 ", acceptStatCode=" + acceptStatCode +
                 ", headers=" + headers +
+                ", isIgnoreCer=" + isIgnoreCer +
                 '}';
     }
 }

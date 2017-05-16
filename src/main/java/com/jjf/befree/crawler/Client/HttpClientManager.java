@@ -4,6 +4,8 @@ package com.jjf.befree.crawler.Client;
  * Created by jjf_lenovo on 2017/5/12.
  */
 
+import com.jjf.befree.crawler.Site;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
@@ -15,6 +17,7 @@ import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.cookie.*;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.cookie.BestMatchSpecFactory;
@@ -45,7 +48,6 @@ public class HttpClientManager {
 
     /**
      * 默认简单的
-     * @return
      */
     public static HttpClient getHttpClient(){
         RequestConfig requestConfig = RequestConfig.custom()
@@ -97,13 +99,13 @@ public class HttpClientManager {
      * @param proxyPort
      * @return
      */
-    public static HttpClient getHttpClientWithProxy(String proxyIp, Integer proxyPort ,Boolean isIgnoreCer){
+     public static HttpClient getHttpClientWithProxy(String proxyIp, Integer proxyPort ,Boolean isIgnoreCer){
         HttpHost proxy = new HttpHost(proxyIp, proxyPort);
         DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(SOCKET_TIMEOUT) //设置socket超时
-                .setConnectTimeout(CONNECT_TIMEOUT) //设置connect超时
-                .setConnectionRequestTimeout(200000)
+                .setSocketTimeout(SOCKET_TIMEOUT) //链接建立的超时时间；
+                .setConnectTimeout(CONNECT_TIMEOUT) //响应超时时间，超过此时间不再读取响应；
+                .setConnectionRequestTimeout(200000)//http clilent中从connetcion pool中获得一个connection的超时时间；
                 .setProxy(proxy)
                 .build();
         if(!isIgnoreCer) { //不需要跳过证书验证
@@ -124,5 +126,40 @@ public class HttpClientManager {
             log.error("自定义SSLSocketFactory失败，可能导致无法绕过证书验证");
         }
         return null;
+    }
+
+    public static HttpClient getHttpClinet(Site site){
+        RequestConfig.Builder configBuilder = RequestConfig.custom();
+        HttpClientBuilder clientBuilder = HttpClients.custom();
+        //如果有-设置代理
+        if((!StringUtils.isEmpty(site.getProxyIp()))&&(site.getProxyPort()!=0)){
+            HttpHost proxy = new HttpHost(site.getProxyIp(), site.getProxyPort());
+            DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+            configBuilder = configBuilder.setProxy(proxy);
+        }
+        //设置超时时间
+        configBuilder.setConnectTimeout(site.getConnectTimeout())
+                .setSocketTimeout(site.getSocketTimeout())
+                .setConnectionRequestTimeout(site.getConnectionRequestTimeout());
+        RequestConfig requestConfig = configBuilder.build();
+        //处理clientBuilder
+        //如果有，跳过https证书验证
+        /**
+         * @see http://blog.csdn.net/a1031397017/article/details/72337281
+         */
+        if(site.isIgnoreCer()){
+            SSLContext sslContext = null;
+            try {
+                sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
+            } catch (Exception e) {
+                //e.printStackTrace();
+                log.error("fali custom SSL , ignoreCer fail");
+            }
+            SSLConnectionSocketFactory sslCSF = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            clientBuilder = clientBuilder.setSSLSocketFactory(sslCSF);
+        }
+        //加载config
+        clientBuilder = clientBuilder.setDefaultRequestConfig(requestConfig);
+        return clientBuilder.build();
     }
 }

@@ -3,6 +3,8 @@ package com.jjf.befree.crawler.Client;
 /**
  * Created by jjf_lenovo on 2017/5/12.
  */
+
+import com.jjf.befree.crawler.utils.HttpUserAgent;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -51,9 +53,9 @@ public class HttpClientRequest {
         httpGet.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
         httpGet.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
         httpGet.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        httpGet.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
+//        httpGet.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
         httpGet.setHeader("Accept-Encoding", "gzip, deflate");
-//        httpGet.setHeader("User-Agent", HttpUserAgent.get());
+        httpGet.setHeader("User-Agent", HttpUserAgent.get());
         try{
             //执行
             HttpResponse response = client.execute(httpGet);

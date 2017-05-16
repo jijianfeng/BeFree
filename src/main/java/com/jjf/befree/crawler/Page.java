@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Page {
 
-    private Html html;
+    private String html;
 
     private String url;
 
@@ -36,7 +36,7 @@ public class Page {
      *
      * @return html
      */
-    public Html getHtml() {
+    public String getHtml() {
         return html;
     }
 
@@ -45,7 +45,7 @@ public class Page {
      * @deprecated since 0.4.0
      * The html is parse just when first time of calling {@link #getHtml()}
      */
-    public void setHtml(Html html) {
+    public void setHtml(String html) {
         this.html = html;
     }
 

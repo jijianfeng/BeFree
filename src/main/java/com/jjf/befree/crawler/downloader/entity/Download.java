@@ -1,4 +1,4 @@
-package com.jjf.befree.crawler.downloader;
+package com.jjf.befree.crawler.downloader.entity;
 
 import com.jjf.befree.crawler.Page;
 import com.jjf.befree.crawler.Task;

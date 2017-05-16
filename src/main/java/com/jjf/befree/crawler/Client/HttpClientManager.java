@@ -27,8 +27,7 @@ import javax.net.ssl.SSLContext;
 
 public class HttpClientManager {
 
-    //TODO 可以用SpringAOP来完成日志
-    static Logger log = Logger.getRootLogger();
+    static Logger log = Logger.getLogger(HttpClientManager.class);
     //最大连接数
 //    public final static int MAX_TOTAL_CONNECTIONS = 800;
 //

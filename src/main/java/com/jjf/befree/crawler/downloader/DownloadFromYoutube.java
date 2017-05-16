@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jjf.befree.crawler.Client.HttpClientManager;
 import com.jjf.befree.crawler.Client.HttpClientRequest;
 import com.jjf.befree.crawler.Page;
+import com.jjf.befree.crawler.Site;
 import com.jjf.befree.crawler.Task;
 import com.jjf.befree.crawler.downloader.entity.Download;
 import com.jjf.befree.crawler.downloader.entity.YoutubeVideo;
@@ -25,6 +26,8 @@ public class DownloadFromYoutube implements Download {
     static Logger log = Logger.getLogger(DownloadFromYoutube.class);
     //https://www.youtube.com/get_video_info?video_id=wWPSpDg5fXg 提取视频信息
     public Page download(Task task) {
+        Site site = task.getSite();
+
         return null;
     }
 
@@ -42,9 +45,9 @@ public class DownloadFromYoutube implements Download {
             String itags[] = video.split("&");
             for(String itag : itags){
                 String nameValue[] = itag.split("=");
-                if(nameValue[0].equals("signature")){
-                    youtubeVideoQuality.setSignature(URLEncodeDecode.decode(nameValue[1]));
-                }
+//                if(nameValue[0].equals("signature")){
+//                    youtubeVideoQuality.setSignature(URLEncodeDecode.decode(nameValue[1]));
+//                }
                 if(nameValue[0].equals("url")){
                     youtubeVideoQuality.setUrl(URLEncodeDecode.decode(nameValue[1]));
                 }
@@ -55,17 +58,18 @@ public class DownloadFromYoutube implements Download {
                 }
             }
             if(youtubeVideoQuality.getQuality()!=null){
+                log.info("success ~ "+youtubeVideoQuality.getType()+":"+youtubeVideoQuality.getQuality()+":"+youtubeVideoQuality.getUrl());
                 urlResult.add(youtubeVideoQuality);
             }
         }
         return urlResult;
     }
 
+    //简单的测试
     public static void main(String[] args){
         String proxyIp = "127.0.0.1"; //走XX-net代理流量
         Integer proxyPort = 8087;
-//        String url = "https://www.youtube.com/watch?v=FzU-czBuDbo";
-        String url = "https://www.youtube.com/watch?v=28pheRq8LLs";
+        String url = "https://www.youtube.com/watch?v=FzU-czBuDbo";
         HttpClient client = HttpClientManager.getHttpClientWithProxy(proxyIp,proxyPort,true);//.getHttpClient();
         String html = null;
         try {
@@ -85,12 +89,5 @@ public class DownloadFromYoutube implements Download {
         //下载地址
         String fmts = (String)object.getJSONObject("args").get("adaptive_fmts");
         List<YoutubeVideoQuality> urlResult2 = getQualityResult(fmts);;
-        for(YoutubeVideoQuality youtubeVideoQuality:urlResult2){
-            urlResult.add(youtubeVideoQuality);
-        }
-        for(YoutubeVideoQuality youtubeVideoQuality:urlResult){
-            if(youtubeVideoQuality.getType().equals("mp4"))
-            System.out.println(youtubeVideoQuality.getQuality()+":"+youtubeVideoQuality.getUrl());
-        }
     }
 }

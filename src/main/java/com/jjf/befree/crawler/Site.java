@@ -8,7 +8,7 @@ import java.util.*;
  * Created by jjf_lenovo on 2017/5/15.
  */
 public class Site {
-    private String domain;
+    private String domain; //域名，我的应用简单，就当url使
 
     private String userAgent;
 
@@ -22,11 +22,11 @@ public class Site {
 
     private int retryTimes = 0;
 
-    private int cycleRetryTimes = 0;
+    private int cycleRetryTimes = 0;  //循环重试总时间
 
-    private int retrySleepTime = 1000;
+    private int retrySleepTime = 5000; //重试休息时间
 
-    private int timeOut = 5000;
+    private int timeOut = 20000; //超时时间
 
     private static final Set<Integer> DEFAULT_STATUS_CODE_SET = new HashSet<Integer>();
 

@@ -88,6 +88,7 @@ public class DownloadFromYoutube implements Download {
         urlResult = getQualityResult(videoUrls);
         //下载地址
         String fmts = (String)object.getJSONObject("args").get("adaptive_fmts");
-        List<YoutubeVideoQuality> urlResult2 = getQualityResult(fmts);;
+        List<YoutubeVideoQuality> urlResult2 = getQualityResult(fmts);
+
     }
 }

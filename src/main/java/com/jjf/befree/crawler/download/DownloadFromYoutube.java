@@ -26,7 +26,7 @@ public class DownloadFromYoutube implements Download {
         long sleepTime = site.getSleepTime();  //重试间隔的休息时间
         for(;;){
             try {
-                HttpResponse response = HttpClientRequest.doGetToResponse(httpClient,site.getDomain(),"UTF-8");
+                HttpResponse response = HttpClientRequest.doGetToResponse(httpClient,site.getDomain(),site.getEncoding());
                 return new Page(FormatResponse.formatResponse(response,site.getEncoding())
                         ,site.getDomain(),
                         response.getStatusLine().getStatusCode());
@@ -43,7 +43,9 @@ public class DownloadFromYoutube implements Download {
                     log.error(e.getMessage());
                 }
             } catch (Exception e){
+                //TODO 这里需要自定义formate异常
                 log.error("page formate error"+e.getMessage());
+                break;
             }
         }
         return null;

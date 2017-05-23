@@ -18,7 +18,7 @@ public class Site {
 
     private String charset;
 
-    private String encoding;
+    private String encoding ="UTF-8";
 
     private int sleepTime = 2000; //休息时间
 

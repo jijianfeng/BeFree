@@ -72,13 +72,10 @@ public class HttpClientRequest {
      * get方式提交数据
      */
     public static HttpResponse doGetToResponse(HttpClient client,String url,String encoding) throws ClientProtocolException{
-        //System.out.println("doGet中使用代理："+proxyIp+":"+proxyPort);
-//        HttpClient client = HttpConnectionManager.getHttpClient();//getHttpClientWithProxy(proxyIp,proxyPort);
         HttpGet httpGet = new HttpGet(url);
         httpGet.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
         httpGet.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
         httpGet.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-//        httpGet.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
         httpGet.setHeader("Accept-Encoding", "gzip, deflate");
         httpGet.setHeader("User-Agent", HttpUserAgent.get());
         try{
@@ -86,11 +83,10 @@ public class HttpClientRequest {
             HttpResponse response = client.execute(httpGet);
             return response;
         } catch (IOException e){
-            throw new ClientProtocolException("发起链接异常");
-        } finally {
             if(httpGet != null){
                 httpGet.abort();
             }
+            throw new ClientProtocolException("发起链接异常");
         }
     }
 

@@ -7,15 +7,32 @@ import java.util.List;
  */
 public class YoutubeVideo {
     int id;
-    String itags;
     List<YoutubeVideoQuality> url;//视频地址
     String title; //标题
     String image; //图像预览取最高画质
     int lengthSeconds;//时长
     String videoId; //视频id
-    String views;// 观看次数
-    String rating;//评级|标签|类型
+    int views;// 观看次数
+    String avgRating; //评级分数
+    String keywords;//视频标签，可以深度搜素
     String author;//作者
+
+    public YoutubeVideo(){
+
+    }
+
+    public YoutubeVideo(int id,  List<YoutubeVideoQuality> url, String title, String image, int lengthSeconds, String videoId, int views, String avgRating, String keywords, String author) {
+        this.id = id;
+        this.url = url;
+        this.title = title;
+        this.image = image;
+        this.lengthSeconds = lengthSeconds;
+        this.videoId = videoId;
+        this.views = views;
+        this.avgRating = avgRating;
+        this.keywords = keywords;
+        this.author = author;
+    }
 
     public int getId() {
         return id;
@@ -23,14 +40,6 @@ public class YoutubeVideo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getItags() {
-        return itags;
-    }
-
-    public void setItags(String itags) {
-        this.itags = itags;
     }
 
     public List<YoutubeVideoQuality> getUrl() {
@@ -73,20 +82,28 @@ public class YoutubeVideo {
         this.videoId = videoId;
     }
 
-    public String getViews() {
+    public int getViews() {
         return views;
     }
 
-    public void setViews(String views) {
+    public void setViews(int views) {
         this.views = views;
     }
 
-    public String getRating() {
-        return rating;
+    public String getAvgRating() {
+        return avgRating;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setAvgRating(String avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
     public String getAuthor() {

@@ -54,13 +54,13 @@ public class FormatResponse {
             }
 
         } catch(Exception e) {
-            throw new Exception(ERROR_CODE+"格式化HttpResponse出错");
+            throw new Exception(ERROR_CODE+e.getMessage());
         } finally {
             if(bis != null){
                 try {
                     bis.close();
                 } catch (IOException e) {
-                    throw new Exception(ERROR_CODE+"格式化HttpResponse出错");
+                    throw new Exception(ERROR_CODE+e.getMessage());
                 }
             }
         }

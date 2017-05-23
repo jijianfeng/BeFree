@@ -1,4 +1,4 @@
-package com.jjf.befree.crawler.downloader.entity;
+package com.jjf.befree.crawler.processor.entity;
 
 import java.util.List;
 

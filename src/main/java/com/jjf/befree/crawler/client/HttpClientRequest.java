@@ -1,4 +1,4 @@
-package com.jjf.befree.crawler.Client;
+package com.jjf.befree.crawler.client;
 
 /**
  * Created by jjf_lenovo on 2017/5/12.
@@ -30,18 +30,6 @@ import java.util.zip.GZIPInputStream;
 
 public class HttpClientRequest {
     private static final int ERROR_CODE = 1;
-
-    public static void main(String args[]) throws Exception{
-        String proxyIp = "127.0.0.1"; //走XX-net代理流量
-        Integer proxyPort = 8087;
-        //这里设置普通的代理是不能访问youtube之类的网站https网站的，
-        // 因为XX-NET时需要证书的，但是可以走百度的http
-        //有两张解决办法，1.绕过证书2.选择证书  这里我选择第一种，第二种https://www.oschina.net/code/snippet_273576_18919
-        HttpClient client = HttpClientManager.getHttpClientWithProxy(proxyIp,proxyPort,true);//.getHttpClient();
-        String html =  doGet(client,"https://www.youtube.com/","UTF-8").html();
-        System.out.println(html);
-    }
-
 
     /**
      * get方式提交数据
@@ -80,6 +68,31 @@ public class HttpClientRequest {
         }
     }
 
+    /**
+     * get方式提交数据
+     */
+    public static HttpResponse doGetToResponse(HttpClient client,String url,String encoding) throws ClientProtocolException{
+        //System.out.println("doGet中使用代理："+proxyIp+":"+proxyPort);
+//        HttpClient client = HttpConnectionManager.getHttpClient();//getHttpClientWithProxy(proxyIp,proxyPort);
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+        httpGet.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+        httpGet.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+//        httpGet.setHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
+        httpGet.setHeader("Accept-Encoding", "gzip, deflate");
+        httpGet.setHeader("User-Agent", HttpUserAgent.get());
+        try{
+            //执行
+            HttpResponse response = client.execute(httpGet);
+            return response;
+        } catch (IOException e){
+            throw new ClientProtocolException("发起链接异常");
+        } finally {
+            if(httpGet != null){
+                httpGet.abort();
+            }
+        }
+    }
 
     /**
      * post方式提交

@@ -1,4 +1,4 @@
-package com.jjf.befree.crawler.downloader.entity;
+package com.jjf.befree.crawler.processor.entity;
 
 /**
  * Created by jjf_lenovo on 2017/5/16.

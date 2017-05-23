@@ -1,6 +1,6 @@
 package com.jjf.befree.crawler.utils;
 
-import com.jjf.befree.crawler.Client.HttpClientManager;
+import com.jjf.befree.crawler.client.HttpClientManager;
 import com.jjf.befree.crawler.Site;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

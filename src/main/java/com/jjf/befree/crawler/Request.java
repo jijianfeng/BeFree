@@ -1,6 +1,5 @@
 package com.jjf.befree.crawler;
 
-import com.jjf.befree.crawler.Model.HttpRequestBody;
 import com.jjf.befree.crawler.utils.Experimental;
 
 import java.io.Serializable;
@@ -18,9 +17,6 @@ public class Request implements Serializable {
     private String url;
 
     private String method;
-
-    private HttpRequestBody requestBody;
-
     /**
      * Store additional information in extras.
      */
@@ -144,14 +140,6 @@ public class Request implements Serializable {
 
     public Map<String, String> getHeaders() {
         return headers;
-    }
-
-    public HttpRequestBody getRequestBody() {
-        return requestBody;
-    }
-
-    public void setRequestBody(HttpRequestBody requestBody) {
-        this.requestBody = requestBody;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.jjf.befree.crawler.downloader.entity;
+package com.jjf.befree.crawler.download.entity;
 
 import com.jjf.befree.crawler.Page;
 import com.jjf.befree.crawler.Task;
@@ -10,7 +10,7 @@ import com.jjf.befree.crawler.Task;
 public interface Download{
 
     /**
-     * Downloads web pages and store in Page object.
+     * 根据任务下载页面，可能对页面有一定的要求，动态页面什么的，考虑扩展
      *
      * @param task task
      * @return page

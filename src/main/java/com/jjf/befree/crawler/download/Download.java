@@ -5,7 +5,6 @@ import com.jjf.befree.crawler.Site;
 import com.jjf.befree.crawler.Task;
 import com.jjf.befree.crawler.client.HttpClientManager;
 import com.jjf.befree.crawler.client.HttpClientRequest;
-import com.jjf.befree.crawler.download.entity.Download;
 import com.jjf.befree.crawler.utils.FormatResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -15,11 +14,17 @@ import org.apache.log4j.Logger;
 /**
  * Created by jjf_lenovo on 2017/5/13.
  */
-public class DownloadFromYoutube implements Download {
+public class Download {
 
-    static Logger log = Logger.getLogger(DownloadFromYoutube.class);
+    static Logger log = Logger.getLogger(Download.class);
 
-    public Page download(Task task) {
+    /**
+     * 根据任务下载页面，可能对页面有一定的要求，动态页面什么的，考虑扩展
+     *
+     * @param task task
+     * @return page
+     */
+    public static Page download(Task task){
         Site site = task.getSite();
         HttpClient httpClient = HttpClientManager.getHttpClinet(site);
         int retryNumber = site.getRetryNumber(); //重试次数
@@ -49,5 +54,6 @@ public class DownloadFromYoutube implements Download {
             }
         }
         return null;
-    }
+    };
+
 }

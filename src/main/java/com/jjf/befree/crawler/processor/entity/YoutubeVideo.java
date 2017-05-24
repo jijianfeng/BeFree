@@ -1,5 +1,7 @@
 package com.jjf.befree.crawler.processor.entity;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.List;
 
 /**
@@ -112,5 +114,10 @@ public class YoutubeVideo {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString(){
+        return JSONObject.toJSONString(this);
     }
 }

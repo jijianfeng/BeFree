@@ -1,28 +1,29 @@
 package com.jjf.befree.crawler;
 
+import java.io.Serializable;
+
 /**
  * Created by jjf_lenovo on 2017/5/15.
  */
-/**
- * Interface for identifying different tasks.<br>
- *
- * @author code4crafter@gmail.com <br>
- * @since 0.1.0
- */
-public interface Task {
+public class Task  implements Serializable{
 
-    /**
-     * unique id for a task.
-     *
-     * @return uuid
-     */
-    public String getUUID();
+    private String UUID;
 
-    /**
-     * site of a task
-     *
-     * @return site
-     */
-    public Site getSite();
+    private Site site;
 
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
 }

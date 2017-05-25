@@ -6,6 +6,7 @@ import com.jjf.befree.crawler.Task;
  * Created by jjf_lenovo on 2017/5/24.
  */
 public interface UrlQueue {
+
     /**
      * 阻塞式出队一个请求
      * @return

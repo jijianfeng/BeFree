@@ -4,10 +4,8 @@
 
     <appender name="Console" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="## %m%n" />
-            <!-- 发布用
+            <!--<param name="ConversionPattern" value="## %m%n" />-->
             <param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss,SSS} %-5p %c(%F:%L) ## %m%n" />
-            -->
         </layout>
     </appender>
 

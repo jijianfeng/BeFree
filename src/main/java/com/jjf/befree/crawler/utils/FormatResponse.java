@@ -1,5 +1,6 @@
 package com.jjf.befree.crawler.utils;
 
+import com.jjf.befree.crawler.exception.FormateResponseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -19,7 +20,7 @@ public class FormatResponse {
      * 格式化请求结果
      * @throws Exception
      */
-    public static String formatResponse(HttpResponse response, String encoding) throws Exception {
+    public static String formatResponse(HttpResponse response, String encoding) throws FormateResponseException {
 
         ByteArrayInputStream bis = null;
         try{
@@ -44,37 +45,33 @@ public class FormatResponse {
                 if(contentEncodingType.equalsIgnoreCase("gzip")){
                     if(response.toString().contains("soufun"))
                         charset = "gb2312";
-
                     byte[] bytes = IOUtils.toByteArray(response.getEntity().getContent());
                     bis = new ByteArrayInputStream(bytes);
-
                     return uncompress(bis ,charset);
                 }
 
             }
 
-        } catch(Exception e) {
-            throw new Exception(ERROR_CODE+e.getMessage());
-        } finally {
+        } catch(IOException e) {
+            throw new FormateResponseException(ERROR_CODE+e.getMessage());
+        }
+        finally {
             if(bis != null){
                 try {
                     bis.close();
                 } catch (IOException e) {
-                    throw new Exception(ERROR_CODE+e.getMessage());
+                    throw new FormateResponseException(ERROR_CODE+e.getMessage());
                 }
             }
         }
-
         return null;
     }
 
     /**
      * GZIP解压
      */
-    private static String uncompress(ByteArrayInputStream in, String charset) {
-
+    private static String uncompress(ByteArrayInputStream in, String charset) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-
         try {
             GZIPInputStream gunzip = new GZIPInputStream(in);
             byte[] buffer = new byte[256];
@@ -84,9 +81,8 @@ public class FormatResponse {
             }
             return out.toString(charset);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        }  finally {
+            out.close();
         }
-        return null;
     }
 }

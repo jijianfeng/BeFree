@@ -100,12 +100,12 @@ public class HttpClientManager {
             SSLContext sslContext = null;
             try {
                 sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
+                SSLConnectionSocketFactory sslCSF = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                clientBuilder = clientBuilder.setSSLSocketFactory(sslCSF);
             } catch (Exception e) {
                 //e.printStackTrace();
                 log.error("fali custom SSL , ignoreCer fail");
             }
-            SSLConnectionSocketFactory sslCSF = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            clientBuilder = clientBuilder.setSSLSocketFactory(sslCSF);
         }
         //加载config
         clientBuilder = clientBuilder.setDefaultRequestConfig(requestConfig);

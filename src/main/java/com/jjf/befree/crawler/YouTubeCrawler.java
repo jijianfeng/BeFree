@@ -35,7 +35,6 @@ public class YouTubeCrawler  implements Crawler{
                 return true;
             }
         }
-
         return false;
     }
 

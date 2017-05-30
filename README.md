@@ -5,6 +5,9 @@
 
 运行环境为 单核1G内存*2 + 随时可能开关机的我的笔记本
 
+爬虫结构图
+![image](https://github.com/jijianfeng/BeFree/images/Crawler.jpg)
+
 1.实现在境内centos环境下的翻墙,毕竟境外服务器价格....，
   
 2.对youtube真实视频地址，视频评级、关键词等信息的解析

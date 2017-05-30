@@ -38,11 +38,11 @@ public class Download {
                         response.getStatusLine().getStatusCode());
             } catch (ClientProtocolException e) {
                 if(retryNumber==0){
-                    log.error(e.getMessage()+"give up retry");
+                    log.error("give up retry "+e.getMessage());
                     break;
                 }
                 retryNumber--;
-                log.info(e.getMessage()+"retry");
+                log.info("retry "+e.getMessage());
                 try {
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e1) {
@@ -50,7 +50,7 @@ public class Download {
                     break;
                 }
             } catch (FormateResponseException e){
-                log.error("page formate error"+e.getMessage());
+                log.error("page formate error "+e.getMessage());
                 break;
             }
         }

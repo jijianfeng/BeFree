@@ -81,7 +81,7 @@ public class HttpClientRequest {
             if(httpGet != null){
                 httpGet.abort();
             }
-            throw new ClientProtocolException("发起链接异常");
+            throw new ClientProtocolException(e.getMessage());
         }
     }
 

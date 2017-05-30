@@ -18,11 +18,11 @@ public class Youtube {
     public void testYoutubeDetail(){
         String proxyIp = "127.0.0.1"; //走XX-net代理流量
         Integer proxyPort = 8087;
-        String url = "https://www.youtube.com/watch?v=FzU-czBuDbo";
+//        String url = "https://www.youtube.com/watch?v=FzU-czBuDbo";
+        String url = "https://www.youtube.com/watch?v=aPzvKH8AVf0";
         Site site = new Site().setDomain(url).setProxyIp(proxyIp).setProxyPort(proxyPort);
-        Page page = Download.download(site.toTask());
-        YoutubeVideo detail = null;
-        detail = new YoutubeProcessor().processor(page);
+        Page page = Download.download(site.toTask());//下载页面
+        YoutubeVideo detail = new YoutubeProcessor().processor(page);//处理页面
         System.out.println(detail.toString());
     }
 }

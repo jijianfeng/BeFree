@@ -8,15 +8,9 @@ import java.util.List;
 public interface Crawler {
 
     /**
-     * 以起始url启动
-     * @param urls
-     */
-    void startByUrls(String[] urls);
-
-    /**
      * 以起始的Request启动，可以应对更复杂的情况，当<code>String[] startUrls();</code>无法满足需求的情况下推荐使用
      */
-    void startByTask(List<Task> tasks);
+    void start(List<Task> tasks);
 
     /**
      * 用于设置允许的请求URL匹配规则
@@ -40,4 +34,6 @@ public interface Crawler {
      * @param page
      */
     Task[] processPage(Page page);
+
+    String getCrawlerName();
 }

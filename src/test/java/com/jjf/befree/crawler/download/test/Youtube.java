@@ -22,7 +22,7 @@ public class Youtube {
         String url = "https://www.youtube.com/watch?v=aPzvKH8AVf0";
         Site site = new Site().setDomain(url).setProxyIp(proxyIp).setProxyPort(proxyPort);
         Page page = Download.download(site.toTask());//下载页面
-        YoutubeVideo detail = new YoutubeProcessor().processor(page);//处理页面
+        YoutubeVideo detail =  new YoutubeProcessor().getResultItems(page).get();//处理页面
         System.out.println(detail.toString());
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by jjf_lenovo on 2017/5/14.
  */
-public class YoutubeVideo {
+public class YoutubeVideo  extends Result{
     int id;
     List<YoutubeVideoQuality> url;//视频地址
     String title; //标题

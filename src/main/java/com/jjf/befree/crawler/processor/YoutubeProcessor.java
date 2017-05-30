@@ -3,6 +3,8 @@ package com.jjf.befree.crawler.processor;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jjf.befree.crawler.Page;
+import com.jjf.befree.crawler.ResultItems;
+import com.jjf.befree.crawler.Task;
 import com.jjf.befree.crawler.processor.entity.Processor;
 import com.jjf.befree.crawler.processor.entity.YoutubeVideo;
 import com.jjf.befree.crawler.processor.entity.YoutubeVideoQuality;
@@ -20,8 +22,24 @@ public class YoutubeProcessor implements Processor {
 
     static Logger log = Logger.getLogger(YoutubeProcessor.class);
 
+    /**
+     * 解析该页面展示的其他相关视频且建立task
+     * @param page
+     * @return
+     */
     @Override
-    public YoutubeVideo processor(Page page) {
+    public Task[] getTasks(Page page) {
+        //TODO 处理列表 or 人物视频列表 ，返回更多Task
+        return new Task[0];
+    }
+
+    /**
+     * 返回youtube视频信息
+     * @param page
+     * @return
+     */
+    @Override
+    public ResultItems getResultItems(Page page) {
         YoutubeVideo youtubeVideo = new YoutubeVideo();
         JSONObject videoJson = getVideoJsonFromUrl(page);//视频信息
         youtubeVideo.setUrl(getVideoUrlsFromPage(videoJson)); //不同格式清晰度的视频连接
@@ -34,7 +52,7 @@ public class YoutubeProcessor implements Processor {
         youtubeVideo.setViews(videoJson.getInteger("view_count"));
         youtubeVideo.setAvgRating(videoJson.getString("avg_rating"));
         youtubeVideo.setKeywords(videoJson.getString("keywords"));
-        return youtubeVideo;
+        return new ResultItems(youtubeVideo);
     }
 
     /**

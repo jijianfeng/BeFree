@@ -19,12 +19,7 @@ public class YouTubeCrawler  implements Crawler{
     private Map fileSaveMap ;//= new HashMap();
 
     @Override
-    public void startByUrls(String[] urls) {
-
-    }
-
-    @Override
-    public void startByTask(List<Task> tasks) {
+    public void start(List<Task> tasks) {
 
     }
 
@@ -56,6 +51,11 @@ public class YouTubeCrawler  implements Crawler{
     @Override
     public Task[] processPage(Page page) {
         return new Task[0];
+    }
+
+    @Override
+    public String getCrawlerName() {
+        return new String("YouTubeCrawler");
     }
 
     /**

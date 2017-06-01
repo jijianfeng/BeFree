@@ -2,6 +2,7 @@ package com.jjf.befree.crawler.processor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jjf.befree.crawler.Crawler;
 import com.jjf.befree.crawler.Page;
 import com.jjf.befree.crawler.ResultItems;
 import com.jjf.befree.crawler.Task;
@@ -28,8 +29,18 @@ public class YoutubeProcessor implements Processor {
      * @return
      */
     @Override
-    public Task[] getTasks(Page page) {
+    public Task[] getTasks(Page page, Crawler crawler) {
         //TODO 处理列表 or 人物视频列表 ，返回更多Task
+        /**
+         * url为以下三种情况之一的 ，肯定是视频列表
+         * 1.**watch?v=**&list=**  不包含index
+         * 2.**watch?v=**&index=*&list=**
+         * 3.和2类似，param中index和list的顺序替换
+         * 提取视频url的path: //*[@id="playlist-autoscroll-list"]/li/a/@href
+         */
+        if(page.getUrl().contains("&list=")){
+            
+        }
         return new Task[0];
     }
 

@@ -1,5 +1,6 @@
 package com.jjf.befree.crawler.processor.entity;
 
+import com.jjf.befree.crawler.Crawler;
 import com.jjf.befree.crawler.Page;
 import com.jjf.befree.crawler.ResultItems;
 import com.jjf.befree.crawler.Task;
@@ -18,7 +19,7 @@ public interface Processor {
      * @param page
      * @return
      */
-    public Task[] getTasks(Page page);
+    public Task[] getTasks(Page page, Crawler crawler);
 
     /**
      * 根据页面信息提取有效的数据

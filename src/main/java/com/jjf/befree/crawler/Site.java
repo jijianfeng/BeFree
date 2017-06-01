@@ -8,7 +8,9 @@ import java.util.*;
  * Created by jjf_lenovo on 2017/5/15.
  */
 public class Site {
-    private String domain; //域名，我的应用简单，就当url使
+    private String domain;
+
+    private String url; //爬取的域名
 
     private String userAgent;
 
@@ -52,6 +54,15 @@ public class Site {
         return new Site();
     }
 
+    public String getDomain() {
+        return domain;
+    }
+
+    public Site setDomain(String domain) {
+        this.domain = domain;
+        return this;
+    }
+
     public Site addCookie(String name, String value) {
         defaultCookies.put(name, value);
         return this;
@@ -82,12 +93,12 @@ public class Site {
         return userAgent;
     }
 
-    public String getDomain() {
-        return domain;
+    public String getUrl() {
+        return url;
     }
 
-    public Site setDomain(String domain) {
-        this.domain = domain;
+    public Site setUrl(String url) {
+        this.url = url;
         return this;
     }
 
@@ -212,7 +223,7 @@ public class Site {
         return new Task() {
             @Override
             public String getUUID() {
-                String uuid = Site.this.getDomain();
+                String uuid = Site.this.getUrl();
                 if (uuid == null) {
                     uuid = UUID.randomUUID().toString();
                 }
@@ -232,6 +243,7 @@ public class Site {
         if (o == null || getClass() != o.getClass()) return false;
 
         Site site = (Site) o;
+        if (domain != site.domain) return false;
         if (sleepTime != site.sleepTime) return false;
         if (proxyIp != site.proxyIp) return false;
         if (proxyPort != site.proxyPort) return false;
@@ -247,7 +259,7 @@ public class Site {
         if (charset != null ? !charset.equals(site.charset) : site.charset != null) return false;
         if (defaultCookies != null ? !defaultCookies.equals(site.defaultCookies) : site.defaultCookies != null)
             return false;
-        if (domain != null ? !domain.equals(site.domain) : site.domain != null) return false;
+        if (url != null ? !url.equals(site.url) : site.url != null) return false;
         if (headers != null ? !headers.equals(site.headers) : site.headers != null) return false;
         if (userAgent != null ? !userAgent.equals(site.userAgent) : site.userAgent != null) return false;
 
@@ -256,7 +268,8 @@ public class Site {
 
     @Override
     public int hashCode() {
-        int result = domain != null ? domain.hashCode() : 0;
+        int result = url != null ? url.hashCode() : 0;
+        result = 31 * result + (domain != null ? domain.hashCode() : 0);
         result = 31 * result + (userAgent != null ? userAgent.hashCode() : 0);
         result = 31 * result + (defaultCookies != null ? defaultCookies.hashCode() : 0);
         result = 31 * result + (charset != null ? charset.hashCode() : 0);
@@ -273,7 +286,8 @@ public class Site {
     @Override
     public String toString() {
         return "Site{" +
-                "domain='" + domain + '\'' +
+                ", domain='" + domain + '\'' +
+                ", url='" + url + '\'' +
                 ", userAgent='" + userAgent + '\'' +
                 ", cookies=" + defaultCookies +
                 ", charset='" + charset + '\'' +

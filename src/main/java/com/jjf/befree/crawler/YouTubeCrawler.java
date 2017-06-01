@@ -1,5 +1,6 @@
 package com.jjf.befree.crawler;
 
+import com.jjf.befree.crawler.processor.YoutubeProcessor;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -50,7 +51,7 @@ public class YouTubeCrawler  implements Crawler{
 
     @Override
     public Task[] processPage(Page page) {
-        return new Task[0];
+        return new YoutubeProcessor().getTasks(page,this);
     }
 
     @Override

@@ -32,9 +32,9 @@ public class Download {
         long sleepTime = site.getSleepTime();  //重试间隔的休息时间
         for(;;){
             try {
-                HttpResponse response = HttpClientRequest.doGetToResponse(httpClient,site.getDomain(),site.getEncoding());
+                HttpResponse response = HttpClientRequest.doGetToResponse(httpClient,site.getUrl(),site.getEncoding());
                 return new Page(FormatResponse.formatResponse(response,site.getEncoding())
-                        ,site.getDomain(),
+                        ,site.getUrl(),
                         response.getStatusLine().getStatusCode());
             } catch (ClientProtocolException e) {
                 if(retryNumber==0){

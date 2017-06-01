@@ -5,8 +5,9 @@
 
 运行环境为 单核1G内存*2 + 随时可能开关机的我的笔记本
 
-爬虫结构图
+# 爬虫结构图
 ![image](https://github.com/jijianfeng/BeFree/blob/master/images/Crawler.png)
+# 过程
 
 1.实现在境内centos环境下的翻墙,毕竟境外服务器价格....，
   
@@ -25,7 +26,7 @@
 
 8.维护的web端
 
-感谢下面的开源项目
+# 感谢
 
 https://github.com/XX-net/XX-Net
 

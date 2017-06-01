@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by jjf_lenovo on 2017/5/23.
  */
-public class YoutubeProcessor implements Processor {
+public class YoutubeProcessor extends Processor {
 
     static Logger log = Logger.getLogger(YoutubeProcessor.class);
 
@@ -39,7 +39,7 @@ public class YoutubeProcessor implements Processor {
          * 提取视频url的path: //*[@id="playlist-autoscroll-list"]/li/a/@href
          */
         if(page.getUrl().contains("&list=")){
-            
+
         }
         return new Task[0];
     }

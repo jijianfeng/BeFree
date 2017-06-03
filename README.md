@@ -1,5 +1,5 @@
 # BeFree
-大概就是建立一个分布式平台爬取YouTube（目前）上的一些热门内容到一些大陆能访问的网站，初步应该就是微博+bilibili+公众号吧
+大概就是先建立一个分布式平台然后运行一个爬取YouTube（目前）上的一些热门内容到一些大陆能访问的网站的项目，初步应该就是微博+bilibili+公众号吧
 
 第一次设计系统，一步步来吧，目前打算用java写
 
@@ -7,6 +7,8 @@
 
 # 爬虫结构图
 ![image](https://github.com/jijianfeng/BeFree/blob/master/images/Crawler.png)
+# YouTube爬虫的处理
+![image](https://github.com/jijianfeng/BeFree/blob/master/images/YouTubeProcessor.png)
 # 过程
 
 1.实现在境内centos环境下的翻墙,毕竟境外服务器价格....，

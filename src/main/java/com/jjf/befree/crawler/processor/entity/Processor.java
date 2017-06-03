@@ -1,12 +1,7 @@
 package com.jjf.befree.crawler.processor.entity;
 
-import cn.wanghaomiao.xpath.model.JXDocument;
-import com.jjf.befree.crawler.Crawler;
-import com.jjf.befree.crawler.Page;
-import com.jjf.befree.crawler.ResultItems;
-import com.jjf.befree.crawler.Task;
+import com.jjf.befree.crawler.*;
 import org.apache.log4j.Logger;
-import org.jsoup.nodes.Element;
 
 import java.util.List;
 
@@ -18,7 +13,7 @@ import java.util.List;
  * 处理页面page获得种子和页面信息
  * @see com.jjf.befree.crawler.processor.YoutubeProcessor
  */
-public abstract class Processor {
+public interface Processor {
 
     static Logger log = Logger.getLogger(Processor.class);
     /**
@@ -26,7 +21,7 @@ public abstract class Processor {
      * @param page
      * @return
      */
-    public abstract Task[] getTasks(Page page, Crawler crawler);
+    public abstract List<Task> getTasks(Page page, Site site, Crawler crawler);
 
     /**
      * 根据页面信息提取有效的数据
@@ -35,23 +30,4 @@ public abstract class Processor {
      */
     public abstract ResultItems getResultItems(Page page);
 
-    public static String[] getXPathResult(String html,String xpath){
-        JXDocument jxDocument = new JXDocument(html);
-        List<Object> rs = null;
-        try {
-            rs = jxDocument.sel(xpath);
-        } catch (Exception e) {
-            log.error("xpath formate error ,message:"+e.getMessage());
-            return new String[0];
-        }
-        for (Object o:rs){
-            if (o instanceof Element){
-                int index = ((Element) o).siblingIndex();
-                System.out.println(((Element)o).toString());
-                System.out.println(index);
-            }
-            System.out.println(o.toString());
-        }
-        return new String[0];
-    }
 }

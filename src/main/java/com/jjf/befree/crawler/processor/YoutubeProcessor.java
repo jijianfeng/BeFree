@@ -2,14 +2,12 @@ package com.jjf.befree.crawler.processor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jjf.befree.crawler.Crawler;
-import com.jjf.befree.crawler.Page;
-import com.jjf.befree.crawler.ResultItems;
-import com.jjf.befree.crawler.Task;
+import com.jjf.befree.crawler.*;
 import com.jjf.befree.crawler.processor.entity.Processor;
 import com.jjf.befree.crawler.processor.entity.YoutubeVideo;
 import com.jjf.befree.crawler.processor.entity.YoutubeVideoQuality;
 import com.jjf.befree.crawler.utils.URLEncodeDecode;
+import com.jjf.befree.crawler.utils.XPathUtil;
 import com.jjf.befree.crawler.utils.YoutubeItagToQuality;
 import org.apache.log4j.Logger;
 
@@ -19,7 +17,7 @@ import java.util.List;
 /**
  * Created by jjf_lenovo on 2017/5/23.
  */
-public class YoutubeProcessor extends Processor {
+public class YoutubeProcessor implements Processor {
 
     static Logger log = Logger.getLogger(YoutubeProcessor.class);
 
@@ -29,19 +27,26 @@ public class YoutubeProcessor extends Processor {
      * @return
      */
     @Override
-    public Task[] getTasks(Page page, Crawler crawler) {
+    public List<Task> getTasks(Page page, Site site, Crawler crawler) {
         //TODO 处理列表 or 人物视频列表 ，返回更多Task
         /**
          * url为以下三种情况之一的 ，肯定是视频列表
          * 1.**watch?v=**&list=**  不包含index
          * 2.**watch?v=**&index=*&list=**
          * 3.和2类似，param中index和list的顺序替换
-         * 提取视频url的path: //*[@id="playlist-autoscroll-list"]/li/a/@href
+         * 提取视频url的path: //*[@id='playlist-autoscroll-list']/li/a/@href
          */
+        List<Task> tasks = new ArrayList<>();
         if(page.getUrl().contains("&list=")){
-
+            List<String> taskUrls = XPathUtil.getXPathResult(page.getHtml(),"//*[@id='playlist-autoscroll-list']/li/a/@href");
+            for(String url:taskUrls){
+                if(!url.startsWith("https")){//相对路径
+                    site.setUrl(site.getDomain()+url);
+                }
+                tasks.add(site.toTask());
+            }
         }
-        return new Task[0];
+        return tasks;
     }
 
     /**

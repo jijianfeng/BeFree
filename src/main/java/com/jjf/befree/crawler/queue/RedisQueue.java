@@ -66,12 +66,12 @@ public class RedisQueue implements UrlQueue {
     }
 
     @Override
-    public boolean push(Task req) {
+    public boolean push(Task task) {
         Jedis jedis = null;
         boolean res = false;
         try {
             jedis = getWClient();
-            res = jedis.lpush(quueName+req.getUUID(),JSONObject.toJSONString(req))>0;
+            res = jedis.lpush(quueName+task.getName(),JSONObject.toJSONString(task))>0;
         }catch (Exception e){
             log.warn(e.getMessage());
         }finally {

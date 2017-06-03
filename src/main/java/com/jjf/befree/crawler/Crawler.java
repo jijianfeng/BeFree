@@ -33,7 +33,7 @@ public interface Crawler {
      * 处理返回的页面,获取更多的种子
      * @param page
      */
-    Task[] processPage(Page page);
+    List<Task> processPage(Page page,Site site);
 
     String getCrawlerName();
 }

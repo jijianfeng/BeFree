@@ -1,29 +1,27 @@
 package com.jjf.befree.crawler;
 
-import java.io.Serializable;
-
 /**
  * Created by jjf_lenovo on 2017/5/15.
  */
-public class Task  implements Serializable{
 
-    private String UUID;
+/**
+ * 任务 ，会放进队列里等合适的Processor来认领
+ */
+public interface Task {
 
-    private Site site;
+    String getUrl();
 
-    public String getUUID() {
-        return UUID;
-    }
+    void setUrl();
 
-    public void setUUID(String UUID) {
-        this.UUID = UUID;
-    }
+    String getName();
 
-    public Site getSite() {
-        return site;
-    }
+    void setName(String name);
 
-    public void setSite(Site site) {
-        this.site = site;
-    }
+    Site getSite();
+
+    void setSite(Site site);
+
+    double getRating();
+
+    void setRating(double rating);
 }

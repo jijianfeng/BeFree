@@ -10,7 +10,7 @@ import java.util.*;
 public class Site {
     private String domain;
 
-    private String url; //爬取的域名
+//    private String url; //爬取的域名
 
     private String userAgent;
 
@@ -91,15 +91,6 @@ public class Site {
 
     public String getUserAgent() {
         return userAgent;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public Site setUrl(String url) {
-        this.url = url;
-        return this;
     }
 
     public Site setCharset(String charset) {
@@ -219,22 +210,15 @@ public class Site {
         return this;
     }
 
-    public Task toTask() {
-        return new Task() {
-            @Override
-            public String getUUID() {
-                String uuid = Site.this.getUrl();
-                if (uuid == null) {
-                    uuid = UUID.randomUUID().toString();
-                }
-                return uuid;
-            }
-
-            @Override
-            public Site getSite() {
-                return Site.this;
-            }
-        };
+    /**
+     * 由设置生成任务
+     * @param url 爬取地址
+     * @param taskName 任务名
+     * @param rating 评级
+     * @return
+     */
+    public Task toTask(String url,String taskName,double rating) {
+        return  new YouTubeTask(url,taskName,this,rating);
     }
 
     @Override
@@ -259,7 +243,6 @@ public class Site {
         if (charset != null ? !charset.equals(site.charset) : site.charset != null) return false;
         if (defaultCookies != null ? !defaultCookies.equals(site.defaultCookies) : site.defaultCookies != null)
             return false;
-        if (url != null ? !url.equals(site.url) : site.url != null) return false;
         if (headers != null ? !headers.equals(site.headers) : site.headers != null) return false;
         if (userAgent != null ? !userAgent.equals(site.userAgent) : site.userAgent != null) return false;
 
@@ -268,8 +251,7 @@ public class Site {
 
     @Override
     public int hashCode() {
-        int result = url != null ? url.hashCode() : 0;
-        result = 31 * result + (domain != null ? domain.hashCode() : 0);
+        int result = domain != null ? domain.hashCode() : 0;
         result = 31 * result + (userAgent != null ? userAgent.hashCode() : 0);
         result = 31 * result + (defaultCookies != null ? defaultCookies.hashCode() : 0);
         result = 31 * result + (charset != null ? charset.hashCode() : 0);
@@ -287,7 +269,6 @@ public class Site {
     public String toString() {
         return "Site{" +
                 ", domain='" + domain + '\'' +
-                ", url='" + url + '\'' +
                 ", userAgent='" + userAgent + '\'' +
                 ", cookies=" + defaultCookies +
                 ", charset='" + charset + '\'' +

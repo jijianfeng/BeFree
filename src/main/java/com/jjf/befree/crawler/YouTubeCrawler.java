@@ -50,8 +50,8 @@ public class YouTubeCrawler  implements Crawler{
     }
 
     @Override
-    public Task[] processPage(Page page) {
-        return new YoutubeProcessor().getTasks(page,this);
+    public List<Task> processPage(Page page,Site site) {
+        return new YoutubeProcessor().getTasks(page,site,this);
     }
 
     @Override

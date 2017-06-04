@@ -5,10 +5,10 @@
 
 运行环境为 单核1G内存*2 + 随时可能开关机的我的笔记本
 
-# 爬虫结构图
-![image](https://github.com/jijianfeng/BeFree/blob/master/images/Crawler.png)
-# YouTube爬虫的处理
-![image](https://github.com/jijianfeng/BeFree/blob/master/images/YouTubeProcessor.png)
+# Master
+![image](https://github.com/jijianfeng/BeFree/blob/master/images/Master.png)
+# Slave
+![image](https://github.com/jijianfeng/BeFree/blob/master/images/Slave.png)
 # 过程
 
 1.实现在境内centos环境下的翻墙,毕竟境外服务器价格....，

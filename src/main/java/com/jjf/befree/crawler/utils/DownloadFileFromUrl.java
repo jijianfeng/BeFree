@@ -15,13 +15,12 @@ import java.io.*;
  */
 public class DownloadFileFromUrl {
     static Logger log = Logger.getLogger(DownloadFileFromUrl.class);
-    public static Long downloadFileFromUrl(String url,String pathName,String proxyIp,int proxyPort)  {
+    public static Long downloadFileFromUrl(String url,String pathName,Site site)  {
         log.info("start download from url "+url);
         InputStream in = null;
         OutputStream out = null;
         long fileSize = 0;
         try {
-            Site site = new Site().setProxyIp(proxyIp).setProxyPort(proxyPort);
             HttpClient client = HttpClientManager.getHttpClinet(site);
             HttpGet httpGet = new HttpGet(url);
             HttpResponse httpResponse = client.execute(httpGet);

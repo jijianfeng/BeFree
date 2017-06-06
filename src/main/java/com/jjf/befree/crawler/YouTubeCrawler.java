@@ -21,7 +21,9 @@ public class YouTubeCrawler  implements Crawler{
 
     @Override
     public void start(List<Task> tasks) {
+        for(Task task:tasks){
 
+        }
     }
 
     @Override

@@ -32,6 +32,14 @@ public class YoutubeProcessor implements Processor {
     }
 
     /**
+     * 根据下载任务
+     * @return
+     */
+    public Boolean downloadFileFromTask(Task task){
+        return false;
+    }
+
+    /**
      * 解析列表页面展示的其他相关视频且建立task
      * @param page
      * @return

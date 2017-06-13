@@ -1,6 +1,8 @@
 package com.jjf.befree.crawler;
 
+import com.jjf.befree.crawler.download.Download;
 import com.jjf.befree.crawler.processor.YoutubeProcessor;
+import com.jjf.befree.crawler.processor.entity.Processor;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -20,9 +22,17 @@ public class YouTubeCrawler  implements Crawler{
     private Map fileSaveMap ;//= new HashMap();
 
     @Override
-    public void start(List<Task> tasks) {
+    public void start(List<Task> tasks,Boolean isDevelop) {
+        YoutubeProcessor process = new YoutubeProcessor();
         for(Task task:tasks){
-
+            //种子视频
+            Page page = Download.download(task);
+            if(isDevelop){
+                List<Task>  takskDevelop = process.getTasks(page,task.getSite(),this);
+                //TODO 发送到队列
+            }
+            Task downloadTask = process.getDownloadTask(page,task.getSite(),this);
+            //TODO 发送到队列
         }
     }
 
@@ -101,9 +111,4 @@ public class YouTubeCrawler  implements Crawler{
         }
         return fileSaveMap;
     }
-
-//    public static void main(String args[]) throws FileNotFoundException {
-//        YouTubeCrawler youTubeCrawler = new YouTubeCrawler();
-//        System.out.println(youTubeCrawler.getFileSavePath().toString());
-//    }
 }

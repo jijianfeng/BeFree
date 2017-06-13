@@ -9,8 +9,10 @@ public interface Crawler {
 
     /**
      * 以起始的Request启动，可以应对更复杂的情况，当<code>String[] startUrls();</code>无法满足需求的情况下推荐使用
+     * @param task 子任务
+     * @param isDevelop 是否根据种子扩展
      */
-    void start(List<Task> tasks);
+    void start(List<Task> task,Boolean isDevelop );
 
     /**
      * 用于设置允许的请求URL匹配规则

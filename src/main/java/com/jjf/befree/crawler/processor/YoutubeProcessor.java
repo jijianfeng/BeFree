@@ -60,7 +60,7 @@ public class YoutubeProcessor implements Processor {
                 if(!url.startsWith("https")){//相对路径
                     url = site.getDomain()+url;
                 }
-                tasks.add(site.toTask(url,"YouTubeTask"+UUID.randomUUID().toString(),0d));
+                tasks.add(site.toTask(url,crawler.getCrawlerName()+UUID.randomUUID().toString(),0d));
             }
         }
         return tasks;

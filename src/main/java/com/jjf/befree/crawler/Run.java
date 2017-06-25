@@ -16,7 +16,7 @@ public class Run {
         try{
             List<Task> list = new ArrayList<Task>();
             list.add(task);
-            crawler.start(list);
+            crawler.start(list,false);
         }
         catch (Exception e){
             log.error(crawler.getCrawlerName()+"run error"+e.getMessage());

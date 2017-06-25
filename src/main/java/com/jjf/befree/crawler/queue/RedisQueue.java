@@ -3,6 +3,7 @@ package com.jjf.befree.crawler.queue;
 import com.alibaba.fastjson.JSONObject;
 import com.jjf.befree.crawler.Task;
 import com.jjf.befree.crawler.client.HttpClientManager;
+import com.jjf.befree.crawler.queue.entity.TaskStatus;
 import com.jjf.befree.crawler.queue.entity.UrlQueue;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -16,12 +17,12 @@ import java.util.List;
  * Created by jjf_lenovo on 2017/5/24.
  */
 public class RedisQueue implements UrlQueue {
-    private String host = "127.0.0.1";
+    private String host = "";
     private int port = 6379;
     private String password = "";
-    private String quueName = "SEIMI_CRAWLER_QUEUE";
+    private String quueName = "RedisQueue";
     private JedisPool wpool = null;
-    static Logger log = Logger.getLogger(HttpClientManager.class);
+    static Logger log = Logger.getLogger(RedisQueue.class);
     public void refresh(){
         if (wpool!=null){
             this.wpool.destroy();
@@ -47,6 +48,12 @@ public class RedisQueue implements UrlQueue {
     public Jedis getWClient() {
         return getWritePool().getResource();
     }
+
+    /**
+     * 要有一定权重关系，比如评分、时间等
+     * @param crawlerName
+     * @return
+     */
     @Override
     public Task bPop(String crawlerName) {
         Jedis jedis = null;
@@ -100,12 +107,12 @@ public class RedisQueue implements UrlQueue {
     }
 
     @Override
-    public boolean isProcessed(Task task) {
-        return false;
+    public int getStatus(Task task){
+        return 1;
     }
 
     @Override
-    public void addProcessed(Task task) {
+    public void addStatus(Task task,TaskStatus status) {
         log.info("");
     }
 
@@ -114,35 +121,57 @@ public class RedisQueue implements UrlQueue {
         return -1;
     }
 
-    public String getHost() {
-        return host;
+    /**
+     * Pipeline异步提交，大幅度提升task数量很多时处理的速度
+     * @param tasks
+     * @return
+     */
+    public boolean pushWithPipeline(List<Task> tasks){
+        //
+        return true;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    /**
+     * Scan简单遍历，适用任务无差别
+     * @param crawlerName 爬虫名
+     * @param cursor Scan 返回的数字，第一次为0
+     * @param limit 一次返回的数量，并不保证相等
+     * @return
+     */
+    public List<Task> popWithScan(String crawlerName,String cursor,int limit){
+        //
+        return null;
     }
 
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getQuueName() {
-        return quueName;
-    }
-
-    public void setQuueName(String quueName) {
-        this.quueName = quueName;
-    }
+//    public String getHost() {
+//        return host;
+//    }
+//
+//    public void setHost(String host) {
+//        this.host = host;
+//    }
+//
+//    public int getPort() {
+//        return port;
+//    }
+//
+//    public void setPort(int port) {
+//        this.port = port;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//
+//    public String getQuueName() {
+//        return quueName;
+//    }
+//
+//    public void setQuueName(String quueName) {
+//        this.quueName = quueName;
+//    }
 }

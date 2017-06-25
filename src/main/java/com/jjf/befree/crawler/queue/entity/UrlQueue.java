@@ -26,17 +26,17 @@ public interface UrlQueue {
     long len(String crawlerName);
 
     /**
-     * 判断一个URL是否处理过了
+     * 判断一个task的状态
      * @param task
      * @return
      */
-    boolean isProcessed(Task task);
+    int getStatus(Task task);
 
     /**
-     * 记录一个处理过的请求
+     * 改变任务的状态
      * @param task
      */
-    void addProcessed(Task task);
+    void addStatus(Task task,TaskStatus status);
 
     /**
      * 目前总共的抓取数量

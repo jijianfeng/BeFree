@@ -24,7 +24,7 @@ public class YoutubeTest {
         Integer proxyPort = 8087;
 //        String url = "https://www.youtube.com/watch?v=FzU-czBuDbo";
         String url = "https://www.youtube.com/watch?v=aPzvKH8AVf0";
-        Site site = new Site().setProxyIp(proxyIp).setProxyPort(proxyPort);
+        Site site = new Site();//.setProxyIp(proxyIp).setProxyPort(proxyPort);
         Page page = Download.download(site.toTask(url,"YoutTubeCrawler",1d));//下载页面
         YoutubeVideo detail =  new YoutubeProcessor().getResultItems(page).get();//处理页面
         System.out.println(detail.toString());

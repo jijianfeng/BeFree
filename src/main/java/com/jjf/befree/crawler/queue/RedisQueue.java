@@ -23,12 +23,14 @@ public class RedisQueue implements UrlQueue {
     private String quueName = "RedisQueue";
     private JedisPool wpool = null;
     static Logger log = Logger.getLogger(RedisQueue.class);
+
     public void refresh(){
         if (wpool!=null){
             this.wpool.destroy();
             this.wpool = null;
         }
     }
+
     public JedisPool getWritePool() {
         if (wpool == null) {
             JedisPoolConfig config = new JedisPoolConfig();

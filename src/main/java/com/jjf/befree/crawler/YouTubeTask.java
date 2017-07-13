@@ -1,7 +1,7 @@
 package com.jjf.befree.crawler;
 
 /**
- * Created by jjf_lenovo on 2017/6/3.
+ * Created by jjf_lenovo on 2017/6/3
  */
 public class YouTubeTask implements Task{
     private String url; //爬取地址

@@ -7,6 +7,18 @@
     <groupId>com.jjf.befree</groupId>
     <artifactId>BeFree</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <!--子工程-->
+    <modules>
+        <!--核心爬虫平台-->
+        <module>core</module>
+        <!--爬取项目-->
+        <module>youtube</module>
+        <!--发布平台-->
+        <module>publish</module>
+    </modules>
+
     <build>
         <plugins>
             <plugin>

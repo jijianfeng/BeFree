@@ -57,6 +57,6 @@ public class Download {
             }
         }
         return null;
-    };
+    }
 
 }

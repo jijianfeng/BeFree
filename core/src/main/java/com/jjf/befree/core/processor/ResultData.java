@@ -38,5 +38,5 @@ public class ResultData<T> implements Result {
     public ResultData(Exception e){
         this.isSuccess = false;
         this.message = e.getClass().toString()+ e.getMessage();
-    };
+    }
 }

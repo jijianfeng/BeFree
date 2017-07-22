@@ -37,5 +37,5 @@ public class ResultItems<M> implements Result {
   public ResultItems(Exception e){
     this.isSuccess = false;
     this.message = e.getClass().toString()+ e.getMessage();
-  };
+  }
 }

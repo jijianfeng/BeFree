@@ -17,7 +17,7 @@ public interface Selector {
      * @param text text
      * @return result
      */
-    public String select(String text);
+    String select(String text);
 
     /**
      * Extract all results in text.<br>
@@ -25,6 +25,6 @@ public interface Selector {
      * @param text text
      * @return results
      */
-    public List<String> selectList(String text);
+    List<String> selectList(String text);
 
 }

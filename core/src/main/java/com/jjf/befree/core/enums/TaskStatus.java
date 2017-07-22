@@ -19,7 +19,7 @@ public enum TaskStatus {
         this.name = name;
     }
 
-    private TaskStatus(){}//防止破坏结构
+    TaskStatus(){}//防止破坏结构
 
     public int getStatus(){
         return this.status;

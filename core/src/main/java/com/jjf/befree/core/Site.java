@@ -233,9 +233,7 @@ public class Site {
         if (defaultCookies != null ? !defaultCookies.equals(site.defaultCookies) : site.defaultCookies != null)
             return false;
         if (headers != null ? !headers.equals(site.headers) : site.headers != null) return false;
-        if (userAgent != null ? !userAgent.equals(site.userAgent) : site.userAgent != null) return false;
-
-        return true;
+      return userAgent != null ? userAgent.equals(site.userAgent) : site.userAgent == null;
     }
 
     @Override

@@ -27,8 +27,7 @@ public class YoutubeTest {
         Site site = new Site();//.setProxyIp(proxyIp).setProxyPort(proxyPort);
         Page page = Download
             .download(new YouTubeTask(url, "YoutTubeCrawler",site, 1d));//下载页面
-        YoutubeVideo
-            detail =  new YoutubeProcessor().getResultItems(page).get();//处理页面
+        YoutubeVideo detail =  new YoutubeProcessor().getResultItems(page).getData();//处理页面
         System.out.println(detail.toString());
     }
 

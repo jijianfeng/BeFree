@@ -1,7 +1,6 @@
 package com.jjf.befree.youtube.processor.entity;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jjf.befree.core.processor.Result;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import lombok.Data;
  * Created by jjf_lenovo on 2017/5/14.
  */
 @Data
-public class YoutubeVideo extends Result {
+public class YoutubeVideo {
     int id;
     List<YoutubeVideoQuality> url;//视频地址
     String title; //标题

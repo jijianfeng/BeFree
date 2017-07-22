@@ -2,7 +2,7 @@ package com.jjf.befree.youtube.processor;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jjf.befree.core.Crawler;
-import com.jjf.befree.core.ResultItems;
+import com.jjf.befree.core.processor.ResultData;
 import com.jjf.befree.core.Task;
 import com.jjf.befree.core.processor.Processor;
 import com.jjf.befree.youtube.YouTubeTask;
@@ -74,20 +74,27 @@ public class YoutubeProcessor implements Processor {
      * @param page
      * @return
      */
-    public ResultItems getResultItems(Page page) {
+    public ResultData<YoutubeVideo> getResultItems(Page page) {
         YoutubeVideo youtubeVideo = new YoutubeVideo();
-        JSONObject videoJson = getVideoJsonFromUrl(page);//视频信息
-        youtubeVideo.setUrl(getVideoUrlsFromPage(videoJson)); //不同格式清晰度的视频连接
-        videoJson = videoJson.getJSONObject("args");
-        youtubeVideo.setVideoId(videoJson.getString("video_id"));
-        youtubeVideo.setImage("https://i.ytimg.com/vi/"+youtubeVideo.getVideoId()+"/hqdefault.jpg");//https://i.ytimg.com/vi/FzU-czBuDbo/hqdefault.jpg
-        youtubeVideo.setTitle(videoJson.getString("title"));
-        youtubeVideo.setAuthor(videoJson.getString("author"));
-        youtubeVideo.setLengthSeconds(videoJson.getInteger("length_seconds"));
-        youtubeVideo.setViews(videoJson.getInteger("view_count"));
-        youtubeVideo.setAvgRating(videoJson.getString("avg_rating"));
-        youtubeVideo.setKeywords(videoJson.getString("keywords"));
-        return new ResultItems(youtubeVideo);
+        try{
+            JSONObject videoJson = getVideoJsonFromUrl(page);//视频信息
+            youtubeVideo.setUrl(getVideoUrlsFromPage(videoJson)); //不同格式清晰度的视频连接
+            videoJson = videoJson.getJSONObject("args");
+            youtubeVideo.setVideoId(videoJson.getString("video_id"));
+            youtubeVideo.setImage("https://i.ytimg.com/vi/"+youtubeVideo.getVideoId()+"/hqdefault.jpg");//https://i.ytimg.com/vi/FzU-czBuDbo/hqdefault.jpg
+            youtubeVideo.setTitle(videoJson.getString("title"));
+            youtubeVideo.setAuthor(videoJson.getString("author"));
+            youtubeVideo.setLengthSeconds(videoJson.getInteger("length_seconds"));
+            youtubeVideo.setViews(videoJson.getInteger("view_count"));
+            youtubeVideo.setAvgRating(videoJson.getString("avg_rating"));
+            youtubeVideo.setKeywords(videoJson.getString("keywords"));
+        }
+        catch (Exception e){
+            log.error("解析youtube page异常："+e.getMessage());
+            ResultData<YoutubeVideo> result = new ResultData(e);
+            return new ResultData(e);
+        }
+        return new ResultData(youtubeVideo);
     }
 
     /**

@@ -4,7 +4,6 @@ package com.jjf.befree.core.processor;
  * Created by jjf_lenovo on 2017/5/23.
  */
 import com.jjf.befree.core.Crawler;
-import com.jjf.befree.core.ResultItems;
 import com.jjf.befree.core.Task;
 import java.util.List;
 import com.jjf.befree.core.Page;
@@ -26,5 +25,5 @@ public interface Processor {
      * @param page
      * @return
      */
-    ResultItems getResultItems(Page page);
+    Result getResultItems(Page page);
 }

@@ -6,13 +6,13 @@
     <parent>
         <groupId>com.jjf.befree</groupId>
         <artifactId>BeFree</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.jjf.befree</groupId>
     <artifactId>core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-RELEASE</version>
 
     <name>core</name>
 

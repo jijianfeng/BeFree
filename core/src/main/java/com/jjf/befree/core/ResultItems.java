@@ -2,9 +2,12 @@ package com.jjf.befree.core;
 
 import com.jjf.befree.core.processor.Result;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import lombok.Data;
 /**
  * Created by jjf_lenovo on 2017/5/30.
  */
@@ -12,41 +15,25 @@ import java.util.Map;
 /**
  * 根据页面解析出来的结果集 支持两种存储方式
  * 1.存储对象result
- * 2.存储Map<String,Object>>在集合中（通用）
+ * 2.存储Map<String,M>>在集合中（通用）
  */
-//TODO 设计有问题
-public class ResultItems {
-    private Object result ;//= new ArrayList();
+@Data
+public class ResultItems<T extends Result,M> {
+    private T result ;
 
     private Task task;
 
-    private Map<String,Object> mapResult = new HashMap() ;
+    private List<Map<String,M>> mapResult = new ArrayList<>();
 
-    public ResultItems(Result result){
+    public ResultItems(T result){ //自定义类型result
         this.result = result;
     }
 
-    public ResultItems(List<Map<String,Object>> data){
-        result = data;
+    public ResultItems(List<Map<String,M>> data){
+        mapResult = data;
     }
 
-    public <T> T get(String key) {
-        Object o = mapResult.get(key);
-        if (o == null) {
-            return null;
-        }
-        return (T) mapResult.get(key);
-    }
-
-    public <T> T get() {
-        return (T) this.result;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
+    public M get(int index,String key) {
+        return mapResult.get(index).get(key);
     }
 }

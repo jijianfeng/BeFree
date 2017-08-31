@@ -23,7 +23,7 @@ public class YoutubeTest {
         String proxyIp = "127.0.0.1"; //走XX-net代理流量
         Integer proxyPort = 8087;
 //        String url = "https://www.youtube.com/watch?v=FzU-czBuDbo";
-        String url = "https://www.youtube.com/watch?v=aPzvKH8AVf0";
+        String url = "https://www.youtube.com/watch?v=EWhTOkDpyxM";
         Site site = new Site();//.setProxyIp(proxyIp).setProxyPort(proxyPort);
         Page page = Download
             .download(new YouTubeTask(url, "YoutTubeCrawler",site, 1d));//下载页面

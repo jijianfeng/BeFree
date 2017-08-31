@@ -19,9 +19,9 @@ public class YouTubeCrawler implements Crawler {
 
     static Logger log = Logger.getLogger(YouTubeCrawler.class);
 
-    private String[] allowRules; //白名单
+    private String[] allowRules={}; //白名单
 
-    private String[] denyRules; //黑名单
+    private String[] denyRules={}; //黑名单
 
     private Map fileSaveMap ;//= new HashMap();
 
@@ -29,6 +29,9 @@ public class YouTubeCrawler implements Crawler {
         YoutubeProcessor process = new YoutubeProcessor();
         for(Task task:tasks){
             //种子视频
+            if(!isAllowRules(task.getUrl())){
+                continue;
+            }
             Page page = Download.download(task);
             if(isDevelop){
                 List<Task>  takskDevelop = process.getTasks(page,task.getSite(),this);
@@ -69,46 +72,4 @@ public class YouTubeCrawler implements Crawler {
         return new String("YouTubeCrawler");
     }
 
-
-    //TODO 适配jdk 1.8
-//    /**
-//     * 读取文件的存储路径，放到内存中，减少IO
-//     */
-//    public  Map getFileSavePath() throws FileNotFoundException{
-//        if(fileSaveMap == null){
-//            fileSaveMap = new HashMap();
-//            Properties prop = new Properties();
-//            InputStream in =null;
-//            try {
-//                //读取属性文件YouTubeFile.properties
-//                String filePath = YouTubeCrawler.class
-//                        .getClassLoader()
-//                        .getResource("main/resources/YouTubeFile.properties")
-//                        .getPath();
-//                in = new BufferedInputStream(
-//                        new FileInputStream(filePath)
-//                );
-//                prop.load(in);     ///加载属性列表
-//                Iterator<String> it=prop.stringPropertyNames().iterator();
-//                while(it.hasNext()){
-//                    String key=it.next();
-////                    System.out.println(key+":"+prop.getProperty(key));
-//                    fileSaveMap.put(key,prop.getProperty(key));
-//                }
-//            } catch (FileNotFoundException e) {
-//                throw e;
-//            } catch (IOException e) {
-//                log.error(e.getMessage());
-//            } finally {
-//                if(in != null){
-//                    try {
-//                        in.close();
-//                    } catch (IOException e) {
-//                        log.error(e.getMessage());
-//                    }
-//                }
-//            }
-//        }
-//        return fileSaveMap;
-//    }
 }

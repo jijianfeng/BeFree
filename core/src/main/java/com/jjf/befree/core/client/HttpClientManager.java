@@ -45,39 +45,6 @@ public class HttpClientManager {
         return httpClient;
     }
 
-//    /**
-//     * 带cookie的
-//     * @return
-//     */
-//    public static HttpClient getHttpClientWithCookie(){
-//        CookieSpecProvider cookieSpecProvider = new CookieSpecProvider() {
-//            public CookieSpec create(HttpContext context) {
-//                return new BrowserCompatSpec() {
-//                    @Override
-//                    public void validate(Cookie cookie, CookieOrigin origin) throws MalformedCookieException {
-//                        //Oh, I am easy;
-//                    }
-//                };
-//            }
-//        };
-//        Registry<CookieSpecProvider> r = RegistryBuilder
-//                .<CookieSpecProvider> create()
-//                .register(CookieSpecs.BEST_MATCH, new BestMatchSpecFactory())
-//                .register(CookieSpecs.BROWSER_COMPATIBILITY, new BrowserCompatSpecFactory())
-//                .register("easy", cookieSpecProvider)
-//                .build();
-//        RequestConfig requestConfig = RequestConfig.custom()
-//                .setCookieSpec("easy")
-//                .setSocketTimeout(SOCKET_TIMEOUT) //设置socket超时
-//                .setConnectTimeout(CONNECT_TIMEOUT) //设置connect超时
-//                .build();
-//        CloseableHttpClient httpClient = HttpClients.custom()
-//                .setDefaultCookieSpecRegistry(r)
-//                .setDefaultRequestConfig(requestConfig)
-//                .build();
-//        return httpClient;
-//    }
-
     public static HttpClient getHttpClinet(Site site){
         RequestConfig.Builder configBuilder = RequestConfig.custom();
         HttpClientBuilder clientBuilder = HttpClients.custom();

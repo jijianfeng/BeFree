@@ -13,7 +13,7 @@
     <!--子工程-->
     <modules>
         <!--控制平台-->
-        <module>publish</module>
+        <module>application</module>
         <!--核心爬虫平台-->
         <module>core</module>
         <!--爬取项目-->

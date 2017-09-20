@@ -30,8 +30,8 @@ public class Application {
 
   @RequestMapping(method = RequestMethod.GET, path = "runDefault")
   @ResponseBody
-  ResultItem runDefault(@RequestParam String url, @RequestParam String crawlerName,
-                        boolean isDevelop) {
+  ResultItem runDefault(@RequestParam("url") String url, @RequestParam("crawlerName") String crawlerName,
+                        @RequestParam("isDevelop") boolean isDevelop) {
     CrawlerEnum crawler = CrawlerEnum.selectCrawlerByName(crawlerName);
     if (crawler == null) {
       log.warn("传入的【" + crawlerName + "】找不到对应的crawler");
@@ -39,7 +39,7 @@ public class Application {
 
     switch (crawler) {
       case YouTubeCrawler: {
-        Runer.run(new YouTubeCrawler(), new YouTubeTask(url, "", new Site(), 0.05D));
+        Runer.run(new YouTubeCrawler(), new YouTubeTask(url, "", new Site(), 0.05D),isDevelop);
         break;
       }
     }

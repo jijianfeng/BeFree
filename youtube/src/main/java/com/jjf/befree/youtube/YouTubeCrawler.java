@@ -19,7 +19,7 @@ public class YouTubeCrawler implements Crawler {
 
   static Logger log = Logger.getLogger(YouTubeCrawler.class);
 
-  private String[] allowRules = {}; //白名单
+  private String[] allowRules = {"https://www.youtube.com"}; //白名单
 
   private String[] denyRules = {}; //黑名单
 
@@ -44,7 +44,7 @@ public class YouTubeCrawler implements Crawler {
 
   public boolean isAllowRules(String url) {
     for (String allowRule : allowRules) {
-      if (allowRule.equals(url)) {
+      if (url.startsWith(allowRule)) {
         return true;
       }
     }

@@ -9,19 +9,19 @@ package com.jjf.befree.core;
  */
 public interface Task {
 
-    String getUrl();
+  String getUrl();
 
-    void setUrl();
+  void setUrl();
 
-    String getName();
+  String getName();
 
-    void setName(String name);
+  void setName(String name);
 
-    Site getSite();
+  Site getSite();
 
-    void setSite(Site site);
+  void setSite(Site site);
 
-    double getRating();
+  double getRating();
 
-    void setRating(double rating);
+  void setRating(double rating);
 }

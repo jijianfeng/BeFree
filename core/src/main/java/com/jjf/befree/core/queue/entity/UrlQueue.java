@@ -8,40 +8,33 @@ import com.jjf.befree.core.enums.TaskStatus;
  */
 public interface UrlQueue {
 
-    /**
-     * 阻塞式出队一个请求
-     * @return
-     */
-    Task bPop(String crawlerName);
+  /**
+   * 阻塞式出队一个请求
+   */
+  Task bPop(String crawlerName);
 
-    /**
-     * 入队一个请求
-     * @param task
-     * @return
-     */
-    boolean push(Task task);
-    /**
-     * 任务队列剩余长度
-     * @return
-     */
-    long len(String crawlerName);
+  /**
+   * 入队一个请求
+   */
+  boolean push(Task task);
 
-    /**
-     * 判断一个task的状态
-     * @param task
-     * @return
-     */
-    int getStatus(Task task);
+  /**
+   * 任务队列剩余长度
+   */
+  long len(String crawlerName);
 
-    /**
-     * 改变任务的状态
-     * @param task
-     */
-    void addStatus(Task task,TaskStatus status);
+  /**
+   * 判断一个task的状态
+   */
+  int getStatus(Task task);
 
-    /**
-     * 目前总共的抓取数量
-     * @return
-     */
-    long totalCrawled(String crawlerName);
+  /**
+   * 改变任务的状态
+   */
+  void addStatus(Task task, TaskStatus status);
+
+  /**
+   * 目前总共的抓取数量
+   */
+  long totalCrawled(String crawlerName);
 }

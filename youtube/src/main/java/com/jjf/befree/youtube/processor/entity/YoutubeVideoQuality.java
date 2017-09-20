@@ -8,21 +8,22 @@ import lombok.Data;
 
 @Data
 public class YoutubeVideoQuality {
-    int itag ;
-    String type;
-    String quality;
-    String signature;
-    String url;
-    
-    public YoutubeVideoQuality() {
 
-    }
+  int itag;
+  String type;
+  String quality;
+  String signature;
+  String url;
 
-    public YoutubeVideoQuality(int itag, String type, String quality, String signature, String url) {
-        this.itag = itag;
-        this.type = type;
-        this.quality = quality;
-        this.signature = signature;
-        this.url = url;
-    }
+  public YoutubeVideoQuality() {
+
+  }
+
+  public YoutubeVideoQuality(int itag, String type, String quality, String signature, String url) {
+    this.itag = itag;
+    this.type = type;
+    this.quality = quality;
+    this.signature = signature;
+    this.url = url;
+  }
 }

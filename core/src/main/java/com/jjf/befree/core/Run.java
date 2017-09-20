@@ -10,17 +10,16 @@ import java.util.List;
  */
 public class Run {
 
-    static Logger log = Logger.getLogger(Run.class);
+  static Logger log = Logger.getLogger(Run.class);
 
-    public static void run(Crawler crawler,Task task){
-        try{
-            List<Task> list = new ArrayList<Task>();
-            list.add(task);
-            crawler.start(list,false);
-        }
-        catch (Exception e){
-            log.error(crawler.getCrawlerName()+"run error"+e.getMessage());
-        }
+  public static void run(Crawler crawler, Task task) {
+    try {
+      List<Task> list = new ArrayList<Task>();
+      list.add(task);
+      crawler.start(list, false);
+    } catch (Exception e) {
+      log.error(crawler.getCrawlerName() + "run error" + e.getMessage());
     }
+  }
 
 }

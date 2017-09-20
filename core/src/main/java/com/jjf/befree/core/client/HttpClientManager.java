@@ -23,60 +23,64 @@ import javax.net.ssl.SSLContext;
 
 public class HttpClientManager {
 
-    static Logger log = Logger.getLogger(HttpClientManager.class);
+  static Logger log = Logger.getLogger(HttpClientManager.class);
 
-    //连接超时时间
-    public final static int CONNECT_TIMEOUT = 200000;
+  //连接超时时间
+  public final static int CONNECT_TIMEOUT = 200000;
 
-    //读取超时时间
-    public final static int SOCKET_TIMEOUT = 200000;
+  //读取超时时间
+  public final static int SOCKET_TIMEOUT = 200000;
 
+  /**
+   * 默认简单的
+   */
+  public static HttpClient getHttpClient() {
+    RequestConfig requestConfig = RequestConfig.custom()
+        .setSocketTimeout(SOCKET_TIMEOUT) //设置socket超时
+        .setConnectTimeout(CONNECT_TIMEOUT) //设置connect超时
+        .build();
+    CloseableHttpClient httpClient = HttpClients.custom()
+        .setDefaultRequestConfig(requestConfig)
+        .build();
+    return httpClient;
+  }
+
+  public static HttpClient getHttpClinet(Site site) {
+    RequestConfig.Builder configBuilder = RequestConfig.custom();
+    HttpClientBuilder clientBuilder = HttpClients.custom();
+    //如果有-设置代理
+    if ((!StringUtils.isEmpty(site.getProxyIp())) && (site.getProxyPort() != 0)) {
+      HttpHost proxy = new HttpHost(site.getProxyIp(), site.getProxyPort());
+      DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+      configBuilder = configBuilder.setProxy(proxy);
+    }
+    //设置超时时间
+    configBuilder.setConnectTimeout(site.getConnectTimeout())
+        .setSocketTimeout(site.getSocketTimeout())
+        .setConnectionRequestTimeout(site.getConnectionRequestTimeout());
+    RequestConfig requestConfig = configBuilder.build();
+    //处理clientBuilder
+    //如果有，跳过https证书验证
     /**
-     * 默认简单的
+     * @see http://blog.csdn.net/a1031397017/article/details/72337281
      */
-    public static HttpClient getHttpClient(){
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(SOCKET_TIMEOUT) //设置socket超时
-                .setConnectTimeout(CONNECT_TIMEOUT) //设置connect超时
-                .build();
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setDefaultRequestConfig(requestConfig)
-                .build();
-        return httpClient;
+    if (site.isIgnoreCer()) {
+      SSLContext sslContext = null;
+      try {
+        sslContext =
+            new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
+        SSLConnectionSocketFactory
+            sslCSF =
+            new SSLConnectionSocketFactory(sslContext,
+                                           SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        clientBuilder = clientBuilder.setSSLSocketFactory(sslCSF);
+      } catch (Exception e) {
+        //e.printStackTrace();
+        log.error("fali custom SSL , ignoreCer fail");
+      }
     }
-
-    public static HttpClient getHttpClinet(Site site){
-        RequestConfig.Builder configBuilder = RequestConfig.custom();
-        HttpClientBuilder clientBuilder = HttpClients.custom();
-        //如果有-设置代理
-        if((!StringUtils.isEmpty(site.getProxyIp()))&&(site.getProxyPort()!=0)){
-            HttpHost proxy = new HttpHost(site.getProxyIp(), site.getProxyPort());
-            DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-            configBuilder = configBuilder.setProxy(proxy);
-        }
-        //设置超时时间
-        configBuilder.setConnectTimeout(site.getConnectTimeout())
-                .setSocketTimeout(site.getSocketTimeout())
-                .setConnectionRequestTimeout(site.getConnectionRequestTimeout());
-        RequestConfig requestConfig = configBuilder.build();
-        //处理clientBuilder
-        //如果有，跳过https证书验证
-        /**
-         * @see http://blog.csdn.net/a1031397017/article/details/72337281
-         */
-        if(site.isIgnoreCer()){
-            SSLContext sslContext = null;
-            try {
-                sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
-                SSLConnectionSocketFactory sslCSF = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-                clientBuilder = clientBuilder.setSSLSocketFactory(sslCSF);
-            } catch (Exception e) {
-                //e.printStackTrace();
-                log.error("fali custom SSL , ignoreCer fail");
-            }
-        }
-        //加载config
-        clientBuilder = clientBuilder.setDefaultRequestConfig(requestConfig);
-        return clientBuilder.build();
-    }
+    //加载config
+    clientBuilder = clientBuilder.setDefaultRequestConfig(requestConfig);
+    return clientBuilder.build();
+  }
 }

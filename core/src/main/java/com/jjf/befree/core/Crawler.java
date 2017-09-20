@@ -13,7 +13,7 @@ public interface Crawler {
    * @param task      子任务
    * @param isDevelop 是否根据种子扩展
    */
-  void start(List<Task> task, Boolean isDevelop);
+  void start(List<Task> task, boolean isDevelop);
 
   /**
    * 用于设置允许的请求URL匹配规则

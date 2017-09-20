@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Created by jjf_lenovo on 2017/5/29.
  */
-public class Run {
+public class Runer {
 
-  static Logger log = Logger.getLogger(Run.class);
+  static Logger log = Logger.getLogger(Runer.class);
 
   public static void run(Crawler crawler, Task task) {
     try {

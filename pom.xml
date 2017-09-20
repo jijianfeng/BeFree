@@ -12,6 +12,8 @@
 
     <!--子工程-->
     <modules>
+        <!--控制平台-->
+        <module>publish</module>
         <!--核心爬虫平台-->
         <module>core</module>
         <!--爬取项目-->
@@ -102,6 +104,11 @@
             <groupId>cn.wanghaomiao</groupId>
             <artifactId>JsoupXpath</artifactId>
             <version>0.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.6</version>
         </dependency>
     </dependencies>
 

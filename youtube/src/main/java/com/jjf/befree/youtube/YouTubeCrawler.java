@@ -25,7 +25,7 @@ public class YouTubeCrawler implements Crawler {
 
   private Map fileSaveMap;//= new HashMap();
 
-  public void start(List<Task> tasks, Boolean isDevelop) {
+  public void start(List<Task> tasks, boolean isDevelop) {
     YoutubeProcessor process = new YoutubeProcessor();
     for (Task task : tasks) {
       //种子视频

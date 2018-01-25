@@ -5,11 +5,45 @@
 
 运行环境为 单核1G内存*2 + 随时可能开关机的我的笔记本
 
-# Master
-![image](https://github.com/jijianfeng/BeFree/blob/master/images/Master.png)
-# Slave
+### Master
+sequenceDiagram
+participant con as Controller
+participant down as Download
+participant queue as Queue
+participant pro as Processor
+participant db as DataBase
+
+con->>queue:request
+
+loop pop CrawTask
+    queue->>down:return CrawTask
+end
+
+down->>down:download Page
+down->>pro:Page
+pro->>pro:handle Page
+pro->>queue:CrawTask and DownloadTask
+
+loop pop DownloadTask
+    opt don`t exit PushlishTask
+        queue->>down:return DownloadTask
+    end
+end
+
+down->>down:download resource
+down->>queue:PulishTask
+
+loop pop PublishTask
+    queue->>pro:return PublishTask
+end
+
+pro->>pro:publish Resource
+pro->>db:resultItem
+db->>db:save
+
+### Slave
 ![image](https://github.com/jijianfeng/BeFree/blob/master/images/Slave.png)
-# 过程
+### 过程
 
 1.实现在境内centos环境下的翻墙,毕竟境外服务器价格....，
   
@@ -28,7 +62,7 @@
 
 8.维护的web端
 
-# 感谢
+### 感谢
 
 https://github.com/XX-net/XX-Net
 

@@ -4,7 +4,6 @@ import com.jjf.befree.core.Page;
 import com.jjf.befree.core.Site;
 import com.jjf.befree.core.Task;
 import com.jjf.befree.core.download.Download;
-import com.jjf.befree.core.utils.XPathUtil;
 import com.jjf.befree.youtube.processor.YoutubeProcessor;
 import com.jjf.befree.youtube.processor.entity.YoutubeVideo;
 

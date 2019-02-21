@@ -1,6 +1,8 @@
 package com.jjf.befree.core.utils;
 
-import cn.wanghaomiao.xpath.model.JXDocument;
+
+import org.jsoup.nodes.Element;
+import org.seimicrawler.xpath.JXDocument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,25 +12,36 @@ import java.util.List;
  */
 public class XPathUtil {
 
-  /**
-   * 从html里提出符合xpath的内容
-   */
-  public static List<String> getXPathResult(String html, String xpath) {
-    JXDocument jxDocument = new JXDocument(html);
-    List<String> result = new ArrayList<>();
-    List<Object> rs = null;
-    try {
-      rs = jxDocument.sel(xpath);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      return result;
+    /**
+     * 从html里提出符合xpath的内容
+     */
+    public static List<String> getXPathStringResult(String html, String xpath) {
+        List<Object> rs = xpathParse(html, xpath);
+        List<String> result = new ArrayList<>();
+        for (Object o : rs) {
+            if (o instanceof String) {
+                result.add(o.toString());
+            }
+        }
+        return result;
     }
-    int i = 0;
-    for (Object o : rs) {
-      if (o instanceof String) {
-        result.add(o.toString());
-      }
+
+    /**
+     * 从html里提出符合xpath的内容
+     */
+    public static List<Element> getXPathElementResult(String html, String xpath) {
+        List<Object> rs = xpathParse(html, xpath);
+        List<Element> result = new ArrayList<>();
+        for (Object o : rs) {
+            if (o instanceof Element) {
+                result.add((Element) o);
+            }
+        }
+        return result;
     }
-    return result;
-  }
+
+    private static List<Object> xpathParse(String html, String xpath) {
+        JXDocument jxDocument = JXDocument.create(html);
+        return jxDocument.sel(xpath);
+    }
 }

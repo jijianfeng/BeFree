@@ -60,7 +60,7 @@ public class YoutubeProcessor implements Processor {
       List<String>
           taskUrls =
           XPathUtil
-              .getXPathResult(page.getHtml(), "//*[@id='playlist-autoscroll-list']/li/a/@href");
+              .getXPathStringResult(page.getHtml(), "//*[@id='playlist-autoscroll-list']/li/a/@href");
       for (String url : taskUrls) {
         if (!url.startsWith("https")) {//相对路径
           url = site.getDomain() + url;

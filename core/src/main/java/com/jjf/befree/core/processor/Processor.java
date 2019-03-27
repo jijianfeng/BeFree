@@ -17,13 +17,13 @@ import com.jjf.befree.core.Site;
  */
 public interface Processor {
 
-  /**
-   * 根据种子页面page获得更多的种子，继续爬取
-   */
-  List<Task> getTasks(Page page, Site site, Crawler crawler);
+    /**
+     * 根据种子页面page获得更多的种子，继续爬取
+     */
+    List<Task> getTasks(Page page, Site site, Crawler crawler);
 
-  /**
-   * 根据页面信息提取有效的数据
-   */
-  Result getResultItems(Page page);
+    /**
+     * 根据页面信息提取有效的数据
+     */
+    Result getResultItems(Page page);
 }

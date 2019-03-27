@@ -11,11 +11,11 @@ import java.io.IOException;
  */
 public class FormateResponseException extends IOException {
 
-  public FormateResponseException(String message) {
-    super(message);
-  }
+    public FormateResponseException(String message) {
+        super(message);
+    }
 
-  public FormateResponseException(Exception exception) {
-    super(exception);
-  }
+    public FormateResponseException(Exception exception) {
+        super(exception);
+    }
 }

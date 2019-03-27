@@ -17,59 +17,59 @@ import java.util.*;
  */
 public class YouTubeCrawler implements Crawler {
 
-  static Logger log = Logger.getLogger(YouTubeCrawler.class);
+    static Logger log = Logger.getLogger(YouTubeCrawler.class);
 
-  private String[] allowRules = {"https://www.youtube.com"}; //白名单
+    private String[] allowRules = {"https://www.youtube.com"}; //白名单
 
-  private String[] denyRules = {}; //黑名单
+    private String[] denyRules = {}; //黑名单
 
-  private Map fileSaveMap;//= new HashMap();
+    private Map fileSaveMap;//= new HashMap();
 
-  public void start(List<Task> tasks, boolean isDevelop) {
-    YoutubeProcessor process = new YoutubeProcessor();
-    for (Task task : tasks) {
-      //种子视频
-      if (!isAllowRules(task.getUrl())) {
-        continue;
-      }
-      Page page = Download.download(task);
-      if (isDevelop) {
-        List<Task> takskDevelop = process.getTasks(page, task.getSite(), this);
-        //TODO 发送到队列
-      }
-      Task downloadTask = process.getDownloadTask(page, task.getSite(), this);
-      //TODO 发送到队列
+    public void start(List<Task> tasks, boolean isDevelop) {
+        YoutubeProcessor process = new YoutubeProcessor();
+        for (Task task : tasks) {
+            //种子视频
+            if (!isAllowRules(task.getUrl())) {
+                continue;
+            }
+            Page page = Download.download(task);
+            if (isDevelop) {
+                List<Task> takskDevelop = process.getTasks(page, task.getSite(), this);
+                //TODO 发送到队列
+            }
+            Task downloadTask = process.getDownloadTask(page, task.getSite(), this);
+            //TODO 发送到队列
+        }
     }
-  }
 
-  public boolean isAllowRules(String url) {
-    for (String allowRule : allowRules) {
-      if (url.startsWith(allowRule)) {
-        return true;
-      }
+    public boolean isAllowRules(String url) {
+        for (String allowRule : allowRules) {
+            if (url.startsWith(allowRule)) {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
-  public boolean isDenyRules(String url) {
-    for (String denyRule : denyRules) {
-      if (denyRule.equals(url)) {
-        return true;
-      }
+    public boolean isDenyRules(String url) {
+        for (String denyRule : denyRules) {
+            if (denyRule.equals(url)) {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
-  public void handleErrorRequest(Task task) {
+    public void handleErrorRequest(Task task) {
 
-  }
+    }
 
-  public List<Task> processPage(Page page, Site site) {
-    return new YoutubeProcessor().getTasks(page, site, this);
-  }
+    public List<Task> processPage(Page page, Site site) {
+        return new YoutubeProcessor().getTasks(page, site, this);
+    }
 
-  public String getCrawlerName() {
-    return new String("YouTubeCrawler");
-  }
+    public String getCrawlerName() {
+        return new String("YouTubeCrawler");
+    }
 
 }

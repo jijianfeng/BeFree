@@ -16,25 +16,25 @@ import lombok.Data;
 @Data
 public class ResultData<T> implements Result {
 
-  //是否成功
-  public boolean isSuccess = true;
-  //返回信息
-  public String message = "";
-  //数据
-  private T data;
+    //是否成功
+    public boolean isSuccess = true;
+    //返回信息
+    public String message = "";
+    //数据
+    private T data;
 
-  /**
-   * 自定义ResultItems的构造方法，满足自定义需求
-   */
-  public ResultData(T data) { //自定义类型result
-    this.data = data;
-  }
+    /**
+     * 自定义ResultItems的构造方法，满足自定义需求
+     */
+    public ResultData(T data) { //自定义类型result
+        this.data = data;
+    }
 
-  /**
-   * 异常处理
-   */
-  public ResultData(Exception e) {
-    this.isSuccess = false;
-    this.message = e.getClass().toString() + e.getMessage();
-  }
+    /**
+     * 异常处理
+     */
+    public ResultData(Exception e) {
+        this.isSuccess = false;
+        this.message = e.getClass().toString() + e.getMessage();
+    }
 }

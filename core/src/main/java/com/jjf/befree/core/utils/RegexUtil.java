@@ -8,21 +8,21 @@ import java.util.regex.Pattern;
  */
 public class RegexUtil {
 
-  public static boolean isMatches(String pattern, String content) {
-    return Pattern.matches(pattern, content);
-  }
-
-  public String[] getRegexArray(String pattern, String content) {
-    Pattern r = Pattern.compile(pattern);
-    // 现在创建 matcher 对象
-    Matcher m = r.matcher(content);
-    String[] result = new String[m.groupCount() - 1];
-    if (m.find()) {
-      for (int i = 1; i <= m.groupCount(); i++) {
-//                System.out.println("Found value: " + m.group(i) );
-        result[i - 1] = m.group(i);
-      }
+    public static boolean isMatches(String pattern, String content) {
+        return Pattern.matches(pattern, content);
     }
-    return result;
-  }
+
+    public String[] getRegexArray(String pattern, String content) {
+        Pattern r = Pattern.compile(pattern);
+        // 现在创建 matcher 对象
+        Matcher m = r.matcher(content);
+        String[] result = new String[m.groupCount() - 1];
+        if (m.find()) {
+            for (int i = 1; i <= m.groupCount(); i++) {
+//                System.out.println("Found value: " + m.group(i) );
+                result[i - 1] = m.group(i);
+            }
+        }
+        return result;
+    }
 }

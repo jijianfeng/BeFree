@@ -4,7 +4,7 @@ import com.jjf.befree.core.Site;
 import com.jjf.befree.core.Task;
 
 /**
- * Created by jjf_lenovo on 2017/6/3.
+ * Created by jjf_lenovo on 2017/6/3
  */
 public class YouTubeTask implements Task {
 
